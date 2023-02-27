@@ -1,0 +1,35 @@
+project:
+  type: website
+
+website:
+  title: "Data Science Cheat Sheet"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Data Transformation"
+        contents:
+          - data_transformation.qmd
+      - section: "Machine Learning"
+        contents:
+          - machine_learning_regression.qmd
+          
+  navbar:
+    left:
+      - href: data_transformation.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme:
+      light: Minty
+      dark: Darkly
+    fontsize: 16px
+    toc-title: Data Transformation
+    code-fold: show
+    code-tools: true
+    toc: TRUE
+
+editor: visual
+
