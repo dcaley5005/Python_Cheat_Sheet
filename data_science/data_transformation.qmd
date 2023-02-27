@@ -1,0 +1,494 @@
+---
+title: "Data Transformation"
+
+---
+
+# About
+This is a Data Transformation cheat sheet meant to be a second brain
+when performing data science functions.
+
+
+# Ingesting Data
+
+Please see the Data Ingestion Cheat sheet to learn how to load data
+
+```{python, echo=FALSE, message=FALSE}
+
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+```
+
+```{python}
+pd.read_csv?
+
+```
+## Reading CSV
+```{python}
+
+sales = pd.read_csv(
+    'data/sales_data.csv',
+    parse_dates=['Date']
+)
+
+sales.head()
+
+```
+
+
+
+## Adding Column Names
+
+```{python}
+
+marvel_data = [
+    ['Spider-Man', 'male', 1962],
+    ['Captain America', 'male', 1941],
+    ['Wolverine', 'male', 1974],
+    ['Iron Man', 'male', 1963],
+    ['Thor', 'male', 1963],
+    ['Thing', 'male', 1961],
+    ['Mister Fantastic', 'male', 1961],
+    ['Hulk', 'male', 1962],
+    ['Beast', 'male', 1963],
+    ['Invisible Woman', 'female', 1961],
+    ['Storm', 'female', 1975],
+    ['Namor', 'male', 1939],
+    ['Hawkeye', 'male', 1964],
+    ['Daredevil', 'male', 1964],
+    ['Doctor Strange', 'male', 1963],
+    ['Hank Pym', 'male', 1962],
+    ['Scarlet Witch', 'female', 1964],
+    ['Wasp', 'female', 1963],
+    ['Black Widow', 'female', 1964],
+    ['Vision', 'male', 1968]
+]
+
+marvel_df = pd.DataFrame(data=marvel_data,
+                         columns=['name', 'sex', 'first_appearance'])
+marvel_df
+
+```
+
+## Adding Column Names When Reading CSV
+
+```{python}
+
+btc_price = pd.read_csv(
+    'data/btc-market-price.csv',
+    header=None,
+    names=['Timestamp', 'Price'],
+    index_col=0, # this sets the column in this instance its the first column 1
+    # index_col='Timestamp',  # You can also add the column name
+    parse_dates=True
+)
+
+btc_price.head()
+
+```
+
+# Creating a Pandas Dataframe
+
+```{python}
+
+country_stat = pd.DataFrame({
+    'Population': [35.467, 63.951, 80.94 , 60.665, 127.061, 64.511, 318.523],
+    'GDP': [
+        1785387,
+        2833687,
+        3874437,
+        2167744,
+        4602367,
+        2950039,
+        17348075
+    ],
+    'Surface Area': [
+        9984670,
+        640679,
+        357114,
+        301336,
+        377930,
+        242495,
+        9525067
+    ],
+    'HDI': [
+        0.913,
+        0.888,
+        0.916,
+        0.873,
+        0.891,
+        0.907,
+        0.915
+    ],
+    'Continent': [
+        'America',
+        'Europe',
+        'Europe',
+        'Europe',
+        'Asia',
+        'Europe',
+        'America'
+    ]
+}, columns=['Population', 'GDP', 'Surface Area', 'HDI', 'Continent'])
+
+country_stat
+
+```
+
+## Setting the Index
+
+```{python}
+
+country_stat.index = [
+    'Canada',
+    'France',
+    'Germany',
+    'Italy',
+    'Japan',
+    'United Kingdom',
+    'United States',
+]
+
+country_stat.sort_values(by=['Continent','Population','HDI'], ascending=False)
+
+
+```
+
+
+## Splitting String into Two Columns
+
+In this example we split the county and state from each other
+
+```{python}
+
+census_county = pd.read_csv("data/census_county.csv")
+
+census_county[["state","county","NAME"]].head()
+
+
+new = census_county["NAME"].str.split(", ", expand = True)
+census_county["county_name"] = new[0]
+census_county["state_name"] = new[1]
+
+census_county.drop(columns=['NAME'], inplace=True)
+census_county.head()
+
+```
+
+# Modifying Data Time
+
+## Inspecting DataTypes
+
+```{python}
+
+btc_price.dtypes
+
+
+```
+
+## Updating String Using to Date Time
+
+```{python}
+
+btc_price = btc_price.reset_index()
+btc_price['Timestamp'] = pd.to_datetime(btc_price['Timestamp'])
+btc_price.dtypes
+
+```
+
+## Filtering Data Time
+
+```{python}
+
+btc_price.set_index('Timestamp', inplace=True)
+btc_price.loc['2017-09-29':'2017-10-05']
+
+```
+
+## Date Diff Calc
+
+```{python}
+
+import datetime
+
+year = datetime.date.today().year
+
+marvel_df['years_since'] = year - marvel_df['first_appearance']
+marvel_df
+
+```
+
+## Convert Date Time To Year or Month
+
+```{python}
+sales['Year'] = sales['Date'].dt.year
+sales['Month'] = sales['Date'].dt.month
+sales
+```
+
+
+# Summarizing Data
+```{python}
+
+sales.head()
+
+```
+## Understanding the Data
+```{python}
+
+sales.shape
+
+```
+
+
+```{python}
+
+sales.info()
+
+```
+
+```{python}
+
+sales.columns
+
+```
+## Summary Statistics
+```{python}
+
+sales.describe()
+
+```
+
+```{python}
+
+sales[['Age_Group','Unit_Price']].groupby('Age_Group').describe()
+
+```
+
+```{python}
+
+# Number of elements in the data
+sales.size
+
+```
+
+## Data Types
+```{python}
+
+sales.dtypes
+
+```
+
+
+
+
+```{python}
+
+sales['Unit_Cost'].describe()
+
+
+```
+## Individual Statistics
+```{python}
+
+sales['Unit_Cost'].mean()
+
+```
+
+
+```{python}
+
+sales['Unit_Cost'].median()
+
+```
+
+
+
+```{python}
+
+sales['Unit_Cost'].min(), sales['Unit_Cost'].max()
+
+```
+
+
+
+```{python}
+
+sales['Unit_Cost'].std()
+
+```
+
+
+## Quantiles
+```{python}
+
+sales['Unit_Cost'].quantile(0.25)
+
+```
+
+
+```{python}
+
+sales['Unit_Cost'].quantile([.2, .4, .6, .8, 1])
+
+```
+
+## Value Counts
+```{python}
+
+sales['Age_Group'].value_counts()
+
+```
+```{python}
+
+ sales['Age_Group'].value_counts(normalize=True)
+ 
+```
+
+```{python}
+
+country_group = sales.groupby(['Country'])
+country_group['Age_Group'].value_counts(normalize=True).loc['Australia']
+
+```
+
+```{python}
+
+sales.dtypes.value_counts()
+
+```
+
+
+## Bar Graph
+```{python}
+
+pd.DataFrame(sales['Age_Group'].value_counts(normalize = True)).plot(kind = 'bar', figsize = (10,5))
+
+```
+
+
+## Correlations
+```{python}
+
+corr = sales.select_dtypes(include='int64').corr(numeric_only = False)
+corr
+
+```
+
+```{python}
+
+px.imshow(corr)
+
+```
+
+# Column Wrangling & Feature Engineering
+```{python}
+
+sales['Revenue_per_Age'] = sales['Revenue'] / sales['Customer_Age']
+sales['Revenue_per_Age'].head()
+
+```
+
+
+```{python}
+
+sales['Calculated_Cost'] = sales['Order_Quantity'] * sales['Unit_Cost']
+sales['Calculated_Cost'].head()
+
+```
+
+```{python}
+
+(sales['Calculated_Cost'] != sales['Cost']).sum()
+
+```
+
+
+## Modifying All
+```{python}
+
+sales['Calculated_Cost'] *= 1.03
+sales['Calculated_Cost'].head()
+
+```
+## Working with loc
+```{python}
+
+marvel_df.loc['Vision', 'first_appearance'] = 1964
+marvel_df
+
+```
+
+```{python}
+
+sales.loc[sales['Country'] == 'France', 'Revenue'].head()
+
+```
+```{python}
+
+sales.loc[sales['Country'] == 'France', 'Revenue'] *= 1.10
+sales.loc[sales['Country'] == 'France', 'Revenue'].head()
+
+```
+
+```{python}
+crisis = pd.Series([-1_000_000, -0.3], index=['GDP', 'HDI'])
+crisis
+
+```
+
+```{python}
+
+crisis[['GDP', 'HDI']] + crisis
+
+```
+
+# Pivoting Data
+
+## Wide to Long
+```{python}
+d1 = {"Name": ["Pankaj", "Lisa", "David"], "ID": [1, 2, 3], "Role": ["CEO", "Editor", "Author"]}
+df_wide = pd.DataFrame(d1)
+df_wide
+```
+```{python}
+df_long = pd.melt(df_wide, id_vars=["ID"], value_vars=["Name", "Role"], var_name="Attribute", value_name="Value")
+df_long
+```
+
+```{python}
+year_list=list(df_wide.columns)
+df_long = pd.melt(df_wide, value_vars=year_list,value_name='Avg. Price ($)', ignore_index=False).reset_index()
+df_long
+
+```
+
+
+
+## Long to Wide
+```{python}
+# https://beta.bls.gov/dataQuery/find?fq=survey:[ap]&s=popularity:D
+# This data came from bls
+df_long = pd.read_csv("data/file.csv")
+df_long
+```
+
+
+
+```{python}
+
+# unmelting using pivot()
+df_wide=pd.pivot(df_long, index=['Series ID','Item'], columns = 'Year Month',values = 'Avg. Price ($)') #Reshape from long to wide
+
+df_wide
+
+```
+
+```{python}
+
+
+
+```
+
+
