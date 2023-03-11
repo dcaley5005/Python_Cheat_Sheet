@@ -1,0 +1,717 @@
+---
+title: "Classification"
+---
+
+# Libraries
+
+```{python}
+
+import pandas as pd
+import numpy as np
+
+```
+
+# Importing Data
+
+```{python}
+
+dataset = pd.read_csv('data/data_classification.csv')
+dataset.head()
+
+```
+
+# Splitting Data
+
+## Option 1: iloc
+
+```{python}
+
+X = dataset.iloc[ : , : -1].values
+y = dataset.iloc[ : , -1].values
+
+```
+
+
+```{python}
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
+
+```
+
+## Option 2: Not iloc
+
+```{python}
+
+X_train, X_test, y_train, y_test = train_test_split(
+  dataset.drop(columns = 'Class'),
+  dataset.Class,
+  test_size = 0.25,
+  random_state = 0,
+  stratify = dataset.Class
+)
+
+
+
+```
+
+
+# Feature Scaling
+For logisitic models all features must be scaled
+```{python}
+from sklearn.preprocessing import StandardScaler
+
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+```
+
+
+# Logistic Regression - Stats Model
+
+```{python}
+
+import statsmodels.api as sm
+
+```
+
+```{python}
+
+# map Class values to 0 and 1
+y_train = y_train.map({2:0, 4:1})
+y_test = y_test.map({2:0, 4:1})
+
+X_const = sm.add_constant(X_train) # adding a constant
+model = sm.Logit(y_train, X_const).fit()
+print(model.summary())
+
+```
+
+
+## Predict
+```{python}
+
+X_const = sm.add_constant(X_test)
+y_pred = model.predict(X_const)
+
+
+y_pred[:5]
+
+# convert predicted values to binary labels (threshold=0.5)
+y_pred_bin = np.where(y_pred>0.5, 1, 0)
+y_pred_bin[:5]
+
+
+```
+
+## Metrics
+```{python}
+
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score, roc_auc_score, classification_report
+
+```
+
+
+```{python}
+
+accuracy = accuracy_score(y_test, y_pred_bin)
+recall = recall_score(y_test, y_pred_bin) # use average="macro" for multiclass problem 
+precision = precision_score(y_test, y_pred_bin) # use average="macro" for multiclass problem 
+f1 = f1_score(y_test, y_pred_bin) # use average="macro" for multiclass problem
+
+print('Accuracy Score: {:.2f}%'.format(accuracy*100))
+print('Recall Score: {:.2f}%'.format(recall*100))
+print('Precision Score: {:.2f}%'.format(precision*100))
+print('F1 Score: {:.2f}%'.format(f1*100))
+
+```
+```{python}
+
+print(classification_report(y_test, y_pred_bin))
+
+```
+
+# Multi Logistic Regression - Stats Model
+```{python}
+
+import statsmodels.api as sm
+iris = sm.datasets.get_rdataset("iris")
+df = iris.data # this is a pandas dataframe
+
+# convert the species column to a categorical variable with integer codes
+df["Species"] = df["Species"].astype("category").cat.codes
+
+# create a matrix of predictor variables
+X = df[["Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"]]
+
+# import StandardScaler from sklearn.preprocessing
+from sklearn.preprocessing import StandardScaler
+
+# create an instance of StandardScaler
+scaler = StandardScaler()
+
+# fit and transform the X matrix using scaler
+X = scaler.fit_transform(X)
+
+# add a constant term to account for the intercept
+X = sm.add_constant(X)
+
+# create a vector of outcome variable
+y = df["Species"]
+
+# fit the multilogistic regression model using MNLogit function
+model = sm.MNLogit(y, X)
+result = model.fit()
+
+# print the summary of the model
+print(result.summary())
+
+```
+
+## Prediction
+```{python}
+
+# get the predicted probabilities from the model
+y_pred = result.predict(X)
+
+# convert the predicted probabilities to class labels using argmax
+y_pred = y_pred.argmax(axis=1)
+
+y_pred[:5]
+
+```
+
+## Metrics
+```{python}
+
+accuracy = accuracy_score(y, y_pred)
+recall = recall_score(y, y_pred, average="macro") # use average="macro" for multiclass problem 
+precision = precision_score(y, y_pred, average="macro") # use average="macro" for multiclass problem 
+f1 = f1_score(y, y_pred, average="macro") # use average="macro" for multiclass problem
+
+print('Accuracy Score: {:.2f}%'.format(accuracy*100))
+print('Recall Score: {:.2f}%'.format(recall*100))
+print('Precision Score: {:.2f}%'.format(precision*100))
+print('F1 Score: {:.2f}%'.format(f1*100))
+
+```
+
+
+```{python}
+
+print(classification_report(y, y_pred))
+
+```
+
+This is to just prepare for the Ski-learn packages
+```{python}
+
+dataset = pd.read_csv('data/data_classification.csv')
+X_train, X_test, y_train, y_test = train_test_split(
+  dataset.drop(columns = 'Class'),
+  dataset.Class,
+  test_size = 0.25,
+  random_state = 0,
+  stratify = dataset.Class
+)
+
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+# map Class values to 0 and 1
+y_train = y_train.map({2:0, 4:1})
+y_test = y_test.map({2:0, 4:1})
+
+```
+
+
+
+# Logistic Regression
+```{python}
+
+from sklearn.linear_model import LogisticRegression
+
+
+classifier = LogisticRegression()
+classifier.fit(X_train, y_train)
+
+
+
+```
+
+
+
+## Prediction
+
+```{python}
+
+y_pred = classifier.predict(X_test)
+y_pred[:5]
+
+```
+
+### Model Performance
+```{python}
+
+
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+
+```
+
+
+```{python}
+
+
+print("Accuracy Score: {:.2f}%".format(accuracy_score(y_test, y_pred)*100))
+print("Recall Score: {:.2f}%".format(recall_score(y_test, y_pred)*100))
+print("Precision Score: {:.2f}%".format(precision_score(y_test, y_pred)*100))
+print("F1 Score: {:.2f}%".format(f1_score(y_test, y_pred)*100))
+print("ROC AUC Score: {:.2f}%".format(roc_auc_score(y_test, y_pred)*100))
+
+```
+
+```{python}
+
+print(classification_report(y_test, y_pred))
+
+```
+
+# Random Forest
+
+```{python}
+
+from sklearn.ensemble import RandomForestClassifier
+classifier = RandomForestClassifier(n_estimators = 10, random_state = 0)
+classifier.fit(X_train, y_train)
+
+```
+
+## Prediction
+
+```{python}
+
+y_pred = classifier.predict(X_test)
+np.set_printoptions(precision=2)
+
+```
+
+
+### Model Performance
+```{python}
+
+
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+
+```
+
+
+```{python}
+
+
+print("Accuracy Score: {:.2f}%".format(accuracy_score(y_test, y_pred)*100))
+print("Recall Score: {:.2f}%".format(recall_score(y_test, y_pred)*100))
+print("Precision Score: {:.2f}%".format(precision_score(y_test, y_pred)*100))
+print("F1 Score: {:.2f}%".format(f1_score(y_test, y_pred)*100))
+print("ROC AUC Score: {:.2f}%".format(roc_auc_score(y_test, y_pred)*100))
+
+```
+
+```{python}
+
+print(classification_report(y_test, y_pred))
+
+```
+
+
+# Support Vector Regression
+## Linear Kernal
+
+```{python}
+
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'linear')
+classifier.fit(X_train, y_train)
+
+
+```
+
+### Prediction
+```{python}
+
+y_pred = classifier.predict(X_test)
+
+
+```
+
+
+### Model Performance
+```{python}
+
+
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+
+```
+
+
+```{python}
+
+
+print("Accuracy Score: {:.2f}%".format(accuracy_score(y_test, y_pred)*100))
+print("Recall Score: {:.2f}%".format(recall_score(y_test, y_pred)*100))
+print("Precision Score: {:.2f}%".format(precision_score(y_test, y_pred)*100))
+print("F1 Score: {:.2f}%".format(f1_score(y_test, y_pred)*100))
+print("ROC AUC Score: {:.2f}%".format(roc_auc_score(y_test, y_pred)*100))
+
+```
+
+
+```{python}
+
+print(classification_report(y_test, y_pred))
+
+```
+
+
+## Polynomial Kernal
+```{python}
+
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'poly')
+classifier.fit(X_train, y_train)
+
+
+```
+
+### Prediction
+```{python}
+
+y_pred = classifier.predict(X_test)
+
+
+```
+
+
+### Model Performance
+```{python}
+
+
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+
+```
+
+
+```{python}
+
+
+print("Accuracy Score: {:.2f}%".format(accuracy_score(y_test, y_pred)*100))
+print("Recall Score: {:.2f}%".format(recall_score(y_test, y_pred)*100))
+print("Precision Score: {:.2f}%".format(precision_score(y_test, y_pred)*100))
+print("F1 Score: {:.2f}%".format(f1_score(y_test, y_pred)*100))
+print("ROC AUC Score: {:.2f}%".format(roc_auc_score(y_test, y_pred)*100))
+
+```
+
+
+```{python}
+
+print(classification_report(y_test, y_pred))
+
+```
+
+
+## Radial Basis Function (RBF) Kernal
+
+```{python}
+
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'rbf')
+classifier.fit(X_train, y_train)
+
+
+```
+
+
+### Prediction
+```{python}
+
+y_pred = classifier.predict(X_test)
+
+
+```
+
+
+### Model Performance
+```{python}
+
+
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+
+```
+
+
+```{python}
+
+
+print("Accuracy Score: {:.2f}%".format(accuracy_score(y_test, y_pred)*100))
+print("Recall Score: {:.2f}%".format(recall_score(y_test, y_pred)*100))
+print("Precision Score: {:.2f}%".format(precision_score(y_test, y_pred)*100))
+print("F1 Score: {:.2f}%".format(f1_score(y_test, y_pred)*100))
+print("ROC AUC Score: {:.2f}%".format(roc_auc_score(y_test, y_pred)*100))
+
+```
+
+```{python}
+
+print(classification_report(y_test, y_pred))
+
+```
+
+
+## Sigmoid Kernal
+```{python}
+
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'sigmoid')
+classifier.fit(X_train, y_train)
+
+
+```
+
+
+### Prediction
+```{python}
+
+y_pred = classifier.predict(X_test)
+
+
+```
+
+
+
+### Model Performance
+```{python}
+
+
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+
+```
+
+
+```{python}
+
+
+print("Accuracy Score: {:.2f}%".format(accuracy_score(y_test, y_pred)*100))
+print("Recall Score: {:.2f}%".format(recall_score(y_test, y_pred)*100))
+print("Precision Score: {:.2f}%".format(precision_score(y_test, y_pred)*100))
+print("F1 Score: {:.2f}%".format(f1_score(y_test, y_pred)*100))
+print("ROC AUC Score: {:.2f}%".format(roc_auc_score(y_test, y_pred)*100))
+
+```
+
+```{python}
+
+print(classification_report(y_test, y_pred))
+
+```
+
+# Cross Validation
+
+```{python}
+
+from sklearn.model_selection import cross_val_score
+
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'rbf')
+classifier.fit(X_train, y_train)
+
+```
+
+## Accuracy
+
+```{python}
+
+scores = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, scoring='accuracy')
+print("Accuracy Score: {:.2f}%".format(scores.mean()*100))
+print("Standard Deviation: {:.2f}%".format(scores.std()*100))
+
+```
+
+## Recall
+
+```{python}
+
+scores = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, scoring='recall')
+print("Recall Score: {:.2f}%".format(scores.mean()*100))
+print("Standard Deviation: {:.2f}%".format(scores.std()*100))
+
+```
+
+## F1 Score
+
+```{python}
+
+scores = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, scoring='f1')
+print("F1 Score: {:.2f}%".format(scores.mean()*100))
+print("Standard Deviation: {:.2f}%".format(scores.std()*100))
+
+```
+
+# Grid Search
+
+```{python}
+
+from sklearn.model_selection import GridSearchCV
+
+parameters = [{'C': [0.25, 0.5, 0.75, 1], 'kernel': ['linear']},
+              {'C': [0.25, 0.5, 0.75, 1], 'kernel': ['rbf'], 'gamma': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}]
+              
+grid_search = GridSearchCV(estimator = classifier,
+                           param_grid = parameters,
+                           scoring = 'accuracy',
+                           cv = 10,
+                           n_jobs = -1)
+                           
+grid_search.fit(X_train, y_train)
+best_score = grid_search.best_score_
+best_parameters = grid_search.best_params_
+
+print("Best Accuracy: {:.2f} %".format(best_score*100))
+print("Best Parameters:", best_parameters)
+
+```
+
+## Applying Results
+
+### Option 1
+
+```{python}
+
+best_svr = grid_search.best_estimator_
+best_svr.fit(X_train,y_train)
+
+y_pred = best_svr.predict(X_test)
+
+y_pred[:5]
+
+```
+
+### Option 2
+
+```{python}
+
+classifier = SVC(kernel = 'rbf', C = 1, gamma = 0.4)
+classifier.fit(X_train, y_train)
+
+y_pred = classifier.predict(X_test)
+
+y_pred[:5]
+
+```
+
+# Evaluating All Models
+
+```{python}
+
+# Define models
+models = {
+    "Logistic Regression": LogisticRegression(),
+    "Random Forest": RandomForestClassifier(),
+    "SVC": SVC()
+}
+
+# Define parameters for grid search
+params = {
+    "Logistic Regression": {"fit_intercept": [True, False]},
+    "Random Forest": {"n_estimators": [10, 50, 100], "max_depth": [None, 5, 10]},
+    "SVC": {"kernel": ["linear", "rbf"], "C": [0.1, 1.0], "gamma": [0.01, 0.1]}
+}
+
+# Compare models using cross-validation and grid search
+results = {} # Store results
+for name, model in models.items():
+    print(f"Comparing {name}...")
+    grid = GridSearchCV(model, params[name], cv=5) # Grid search with 5-fold cross-validation
+    grid.fit(X_train,y_train) # Fit on data
+    best_score = grid.best_score_ # Best mean score across folds
+    best_params = grid.best_params_ # Best parameters found by grid search 
+    results[name] = (best_score,best_params) # Save results
+
+# Print results    
+for name,(score,params) in results.items():
+    print(f"{name}:")
+    print(f"Best score: {score*100}%")
+    print(f"Best parameters: {params}")
+
+```
+
+```{python}
+
+# Define models
+models = {
+    "Logistic Regression": LogisticRegression(),
+    "Random Forest": RandomForestClassifier(),
+    "SVC": SVC()
+}
+
+# Define parameters for grid search
+params = {
+    "Logistic Regression": {"fit_intercept": [True, False]},
+    "Random Forest": {"n_estimators": [10, 50, 100], "max_depth": [None, 5, 10]},
+    "SVC": {"kernel": ["linear", "rbf"], "C": [0.1, 1.0], "gamma": [0.01, 0.1]}
+}
+
+# Compare models using cross-validation and grid search
+results = {} # Store results
+best_models = {} # Store best models with best parameters
+for name, model in models.items():
+    print(f"Comparing {name}...")
+    grid = GridSearchCV(model, params[name], cv=5) # Grid search with 5-fold cross-validation
+    grid.fit(X_train, y_train) # Fit on data
+    best_score = grid.best_score_ # Best mean score across folds
+    best_params = grid.best_params_ # Best parameters found by grid search 
+    results[name] = (best_score,best_params) # Save results 
+    best_models[name] = grid.best_estimator_ # Save best model with best parameters
+
+# Run cross validation on all best models and store in a dataframe    
+cv_results = pd.DataFrame(dtype='float64') # create an empty DataFrame to Store cross validation results 
+for name,model in best_models.items():
+    print(f"Running cross validation on {name}...")
+    scores = cross_val_score(model,X_test,y_test,cv=5) # Cross validate with 5-fold 
+    cv_results_staging = pd.DataFrame(scores, columns =['scores'])
+    cv_results_staging['model'] = name
+    #cv_results = cv_results_staging.append(cv_results)
+    cv_results = pd.concat([cv_results, cv_results_staging], ignore_index = True)
+
+
+
+```
+
+```{python}
+
+import plotly.express as px
+
+px.box(cv_results, x = "scores" , y = "model")
+
+```
+

@@ -1,33 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Data Transformation",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n\nCode\n1 + 1\n\n\n[1] 2"
-  },
-  {
-    "objectID": "machine_learning_regression.html",
-    "href": "machine_learning_regression.html",
-    "title": "Regression",
-    "section": "",
-    "text": "Code\nimport pandas as pd\nimport numpy as np"
-  },
-  {
-    "objectID": "machine_learning_regression.html#running-code",
-    "href": "machine_learning_regression.html#running-code",
-    "title": "Regression",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\nCode\n1 + 1\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed).\n\n\n\nSource Code\n---\ntitle: \"Regression\"\n---\n\n## Quarto\n\nQuarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.\n\n## Running Code\n\nWhen you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n```{r}\n1 + 1\n```\n\nYou can add options to executable code like this\n\n```{r}\n#| echo: false\n2 * 2\n```\n\nThe `echo: false` option disables the printing of code (only output is displayed)."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n\nCode\n1 + 1\n\n\n[1] 2"
-  },
-  {
     "objectID": "data_transformation.html",
     "href": "data_transformation.html",
     "title": "Data Transformation",
@@ -35,11 +7,39 @@
     "text": "This is a Data Transformation cheat sheet meant to be a second brain when performing data science functions."
   },
   {
+    "objectID": "data_transformation.html#reading-csv",
+    "href": "data_transformation.html#reading-csv",
+    "title": "Data Transformation",
+    "section": "Reading CSV",
+    "text": "Reading CSV\n\n\nCode\nsales = pd.read_csv(\n    'data/sales_data.csv',\n    parse_dates=['Date']\n)\n\nsales.head()\n\n\n\n\n\n\n  \n    \n      \n      Date\n      Day\n      Month\n      Year\n      Customer_Age\n      Age_Group\n      Customer_Gender\n      Country\n      State\n      Product_Category\n      Sub_Category\n      Product\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n    \n  \n  \n    \n      0\n      2013-11-26\n      26\n      November\n      2013\n      19\n      Youth (<25)\n      M\n      Canada\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950\n    \n    \n      1\n      2015-11-26\n      26\n      November\n      2015\n      19\n      Youth (<25)\n      M\n      Canada\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950\n    \n    \n      2\n      2014-03-23\n      23\n      March\n      2014\n      49\n      Adults (35-64)\n      M\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      23\n      45\n      120\n      1366\n      1035\n      2401\n    \n    \n      3\n      2016-03-23\n      23\n      March\n      2016\n      49\n      Adults (35-64)\n      M\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      20\n      45\n      120\n      1188\n      900\n      2088\n    \n    \n      4\n      2014-05-15\n      15\n      May\n      2014\n      47\n      Adults (35-64)\n      F\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      4\n      45\n      120\n      238\n      180\n      418"
+  },
+  {
+    "objectID": "data_transformation.html#adding-column-names",
+    "href": "data_transformation.html#adding-column-names",
+    "title": "Data Transformation",
+    "section": "Adding Column Names",
+    "text": "Adding Column Names\n\n\nCode\nmarvel_data = [\n    ['Spider-Man', 'male', 1962],\n    ['Captain America', 'male', 1941],\n    ['Wolverine', 'male', 1974],\n    ['Iron Man', 'male', 1963],\n    ['Thor', 'male', 1963],\n    ['Thing', 'male', 1961],\n    ['Mister Fantastic', 'male', 1961],\n    ['Hulk', 'male', 1962],\n    ['Beast', 'male', 1963],\n    ['Invisible Woman', 'female', 1961],\n    ['Storm', 'female', 1975],\n    ['Namor', 'male', 1939],\n    ['Hawkeye', 'male', 1964],\n    ['Daredevil', 'male', 1964],\n    ['Doctor Strange', 'male', 1963],\n    ['Hank Pym', 'male', 1962],\n    ['Scarlet Witch', 'female', 1964],\n    ['Wasp', 'female', 1963],\n    ['Black Widow', 'female', 1964],\n    ['Vision', 'male', 1968]\n]\n\nmarvel_df = pd.DataFrame(data=marvel_data,\n                         columns=['name', 'sex', 'first_appearance'])\nmarvel_df\n\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      first_appearance\n    \n  \n  \n    \n      0\n      Spider-Man\n      male\n      1962\n    \n    \n      1\n      Captain America\n      male\n      1941\n    \n    \n      2\n      Wolverine\n      male\n      1974\n    \n    \n      3\n      Iron Man\n      male\n      1963\n    \n    \n      4\n      Thor\n      male\n      1963\n    \n    \n      5\n      Thing\n      male\n      1961\n    \n    \n      6\n      Mister Fantastic\n      male\n      1961\n    \n    \n      7\n      Hulk\n      male\n      1962\n    \n    \n      8\n      Beast\n      male\n      1963\n    \n    \n      9\n      Invisible Woman\n      female\n      1961\n    \n    \n      10\n      Storm\n      female\n      1975\n    \n    \n      11\n      Namor\n      male\n      1939\n    \n    \n      12\n      Hawkeye\n      male\n      1964\n    \n    \n      13\n      Daredevil\n      male\n      1964\n    \n    \n      14\n      Doctor Strange\n      male\n      1963\n    \n    \n      15\n      Hank Pym\n      male\n      1962\n    \n    \n      16\n      Scarlet Witch\n      female\n      1964\n    \n    \n      17\n      Wasp\n      female\n      1963\n    \n    \n      18\n      Black Widow\n      female\n      1964\n    \n    \n      19\n      Vision\n      male\n      1968"
+  },
+  {
+    "objectID": "data_transformation.html#adding-column-names-when-reading-csv",
+    "href": "data_transformation.html#adding-column-names-when-reading-csv",
+    "title": "Data Transformation",
+    "section": "Adding Column Names When Reading CSV",
+    "text": "Adding Column Names When Reading CSV\n\n\nCode\nbtc_price = pd.read_csv(\n    'data/btc-market-price.csv',\n    header=None,\n    names=['Timestamp', 'Price'],\n    index_col=0, # this sets the column in this instance its the first column 1\n    # index_col='Timestamp',  # You can also add the column name\n    parse_dates=True\n)\n\nbtc_price.head()\n\n\n\n\n\n\n  \n    \n      \n      Price\n    \n    \n      Timestamp\n      \n    \n  \n  \n    \n      2017-04-02\n      1099.169125\n    \n    \n      2017-04-03\n      1141.813000\n    \n    \n      2017-04-04\n      1141.600363\n    \n    \n      2017-04-05\n      1133.079314\n    \n    \n      2017-04-06\n      1196.307937"
+  },
+  {
     "objectID": "data_transformation.html#setting-the-index",
     "href": "data_transformation.html#setting-the-index",
     "title": "Data Transformation",
     "section": "Setting the Index",
     "text": "Setting the Index\n\n\nCode\ncountry_stat.index = [\n    'Canada',\n    'France',\n    'Germany',\n    'Italy',\n    'Japan',\n    'United Kingdom',\n    'United States',\n]\n\ncountry_stat.sort_values(by=['Continent','Population','HDI'], ascending=False)\n\n\n\n\n\n\n  \n    \n      \n      Population\n      GDP\n      Surface Area\n      HDI\n      Continent\n    \n  \n  \n    \n      Germany\n      80.940\n      3874437\n      357114\n      0.916\n      Europe\n    \n    \n      United Kingdom\n      64.511\n      2950039\n      242495\n      0.907\n      Europe\n    \n    \n      France\n      63.951\n      2833687\n      640679\n      0.888\n      Europe\n    \n    \n      Italy\n      60.665\n      2167744\n      301336\n      0.873\n      Europe\n    \n    \n      Japan\n      127.061\n      4602367\n      377930\n      0.891\n      Asia\n    \n    \n      United States\n      318.523\n      17348075\n      9525067\n      0.915\n      America\n    \n    \n      Canada\n      35.467\n      1785387\n      9984670\n      0.913\n      America"
+  },
+  {
+    "objectID": "data_transformation.html#splitting-string-into-two-columns",
+    "href": "data_transformation.html#splitting-string-into-two-columns",
+    "title": "Data Transformation",
+    "section": "Splitting String into Two Columns",
+    "text": "Splitting String into Two Columns\nIn this example we split the county and state from each other\n\n\nCode\ncensus_county = pd.read_csv(\"data/census_county.csv\")\n\ncensus_county[[\"state\",\"county\",\"NAME\"]].head()\n\n\nnew = census_county[\"NAME\"].str.split(\", \", expand = True)\ncensus_county[\"county_name\"] = new[0]\ncensus_county[\"state_name\"] = new[1]\n\ncensus_county.drop(columns=['NAME'], inplace=True)\ncensus_county.head()\n\n\n\n\n\n\n  \n    \n      \n      state\n      county\n      median_income\n      population\n      year\n      county_name\n      state_name\n    \n  \n  \n    \n      0\n      37\n      43\n      36711.0\n      10506\n      2011\n      Clay County\n      North Carolina\n    \n    \n      1\n      37\n      51\n      44861.0\n      316478\n      2011\n      Cumberland County\n      North Carolina\n    \n    \n      2\n      37\n      81\n      46288.0\n      483081\n      2011\n      Guilford County\n      North Carolina\n    \n    \n      3\n      37\n      99\n      36826.0\n      39574\n      2011\n      Jackson County\n      North Carolina\n    \n    \n      4\n      37\n      139\n      45298.0\n      40511\n      2011\n      Pasquotank County\n      North Carolina"
   },
   {
     "objectID": "data_transformation.html#inspecting-datatypes",
@@ -63,11 +63,11 @@
     "text": "Filtering Data Time\n\n\nCode\nbtc_price.set_index('Timestamp', inplace=True)\nbtc_price.loc['2017-09-29':'2017-10-05']\n\n\n\n\n\n\n  \n    \n      \n      Price\n    \n    \n      Timestamp\n      \n    \n  \n  \n    \n      2017-09-29\n      4193.574667\n    \n    \n      2017-09-30\n      4335.368317\n    \n    \n      2017-10-01\n      4360.722967\n    \n    \n      2017-10-02\n      4386.883750\n    \n    \n      2017-10-03\n      4293.306600\n    \n    \n      2017-10-04\n      4225.175000\n    \n    \n      2017-10-05\n      4338.852000"
   },
   {
-    "objectID": "data_transformation.html#diff-time-calc",
-    "href": "data_transformation.html#diff-time-calc",
+    "objectID": "data_transformation.html#date-diff-calc",
+    "href": "data_transformation.html#date-diff-calc",
     "title": "Data Transformation",
-    "section": "Diff Time Calc",
-    "text": "Diff Time Calc\n\n\nCode\nimport datetime\n\nyear = datetime.date.today().year\n\nmarvel_df['years_since'] = year - marvel_df['first_appearance']\nmarvel_df\n\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      first_appearance\n      years_since\n    \n  \n  \n    \n      0\n      Spider-Man\n      male\n      1962\n      61\n    \n    \n      1\n      Captain America\n      male\n      1941\n      82\n    \n    \n      2\n      Wolverine\n      male\n      1974\n      49\n    \n    \n      3\n      Iron Man\n      male\n      1963\n      60\n    \n    \n      4\n      Thor\n      male\n      1963\n      60\n    \n    \n      5\n      Thing\n      male\n      1961\n      62\n    \n    \n      6\n      Mister Fantastic\n      male\n      1961\n      62\n    \n    \n      7\n      Hulk\n      male\n      1962\n      61\n    \n    \n      8\n      Beast\n      male\n      1963\n      60\n    \n    \n      9\n      Invisible Woman\n      female\n      1961\n      62\n    \n    \n      10\n      Storm\n      female\n      1975\n      48\n    \n    \n      11\n      Namor\n      male\n      1939\n      84\n    \n    \n      12\n      Hawkeye\n      male\n      1964\n      59\n    \n    \n      13\n      Daredevil\n      male\n      1964\n      59\n    \n    \n      14\n      Doctor Strange\n      male\n      1963\n      60\n    \n    \n      15\n      Hank Pym\n      male\n      1962\n      61\n    \n    \n      16\n      Scarlet Witch\n      female\n      1964\n      59\n    \n    \n      17\n      Wasp\n      female\n      1963\n      60\n    \n    \n      18\n      Black Widow\n      female\n      1964\n      59\n    \n    \n      19\n      Vision\n      male\n      1968\n      55"
+    "section": "Date Diff Calc",
+    "text": "Date Diff Calc\n\n\nCode\nimport datetime\n\nyear = datetime.date.today().year\n\nmarvel_df['years_since'] = year - marvel_df['first_appearance']\nmarvel_df\n\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      first_appearance\n      years_since\n    \n  \n  \n    \n      0\n      Spider-Man\n      male\n      1962\n      61\n    \n    \n      1\n      Captain America\n      male\n      1941\n      82\n    \n    \n      2\n      Wolverine\n      male\n      1974\n      49\n    \n    \n      3\n      Iron Man\n      male\n      1963\n      60\n    \n    \n      4\n      Thor\n      male\n      1963\n      60\n    \n    \n      5\n      Thing\n      male\n      1961\n      62\n    \n    \n      6\n      Mister Fantastic\n      male\n      1961\n      62\n    \n    \n      7\n      Hulk\n      male\n      1962\n      61\n    \n    \n      8\n      Beast\n      male\n      1963\n      60\n    \n    \n      9\n      Invisible Woman\n      female\n      1961\n      62\n    \n    \n      10\n      Storm\n      female\n      1975\n      48\n    \n    \n      11\n      Namor\n      male\n      1939\n      84\n    \n    \n      12\n      Hawkeye\n      male\n      1964\n      59\n    \n    \n      13\n      Daredevil\n      male\n      1964\n      59\n    \n    \n      14\n      Doctor Strange\n      male\n      1963\n      60\n    \n    \n      15\n      Hank Pym\n      male\n      1962\n      61\n    \n    \n      16\n      Scarlet Witch\n      female\n      1964\n      59\n    \n    \n      17\n      Wasp\n      female\n      1963\n      60\n    \n    \n      18\n      Black Widow\n      female\n      1964\n      59\n    \n    \n      19\n      Vision\n      male\n      1968\n      55"
   },
   {
     "objectID": "data_transformation.html#convert-date-time-to-year-or-month",
@@ -75,13 +75,6 @@
     "title": "Data Transformation",
     "section": "Convert Date Time To Year or Month",
     "text": "Convert Date Time To Year or Month\n\n\nCode\nsales['Year'] = sales['Date'].dt.year\nsales['Month'] = sales['Date'].dt.month\nsales\n\n\n\n\n\n\n  \n    \n      \n      Date\n      Day\n      Month\n      Year\n      Customer_Age\n      Age_Group\n      Customer_Gender\n      Country\n      State\n      Product_Category\n      Sub_Category\n      Product\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n    \n  \n  \n    \n      0\n      2013-11-26\n      26\n      11\n      2013\n      19\n      Youth (<25)\n      M\n      Canada\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950\n    \n    \n      1\n      2015-11-26\n      26\n      11\n      2015\n      19\n      Youth (<25)\n      M\n      Canada\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950\n    \n    \n      2\n      2014-03-23\n      23\n      3\n      2014\n      49\n      Adults (35-64)\n      M\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      23\n      45\n      120\n      1366\n      1035\n      2401\n    \n    \n      3\n      2016-03-23\n      23\n      3\n      2016\n      49\n      Adults (35-64)\n      M\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      20\n      45\n      120\n      1188\n      900\n      2088\n    \n    \n      4\n      2014-05-15\n      15\n      5\n      2014\n      47\n      Adults (35-64)\n      F\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      4\n      45\n      120\n      238\n      180\n      418\n    \n    \n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n    \n    \n      113031\n      2016-04-12\n      12\n      4\n      2016\n      41\n      Adults (35-64)\n      M\n      United Kingdom\n      England\n      Clothing\n      Vests\n      Classic Vest, S\n      3\n      24\n      64\n      112\n      72\n      184\n    \n    \n      113032\n      2014-04-02\n      2\n      4\n      2014\n      18\n      Youth (<25)\n      M\n      Australia\n      Queensland\n      Clothing\n      Vests\n      Classic Vest, M\n      22\n      24\n      64\n      655\n      528\n      1183\n    \n    \n      113033\n      2016-04-02\n      2\n      4\n      2016\n      18\n      Youth (<25)\n      M\n      Australia\n      Queensland\n      Clothing\n      Vests\n      Classic Vest, M\n      22\n      24\n      64\n      655\n      528\n      1183\n    \n    \n      113034\n      2014-03-04\n      4\n      3\n      2014\n      37\n      Adults (35-64)\n      F\n      France\n      Seine (Paris)\n      Clothing\n      Vests\n      Classic Vest, L\n      24\n      24\n      64\n      684\n      576\n      1260\n    \n    \n      113035\n      2016-03-04\n      4\n      3\n      2016\n      37\n      Adults (35-64)\n      F\n      France\n      Seine (Paris)\n      Clothing\n      Vests\n      Classic Vest, L\n      23\n      24\n      64\n      655\n      552\n      1207\n    \n  \n\n113036 rows × 18 columns"
-  },
-  {
-    "objectID": "data_transformation.html#splitting-string-into-two-columns",
-    "href": "data_transformation.html#splitting-string-into-two-columns",
-    "title": "Data Transformation",
-    "section": "Splitting String into Two Columns",
-    "text": "Splitting String into Two Columns\nIn this example we split the county and state from each other\n\n\nCode\ncensus_county = pd.read_csv(\"data/census_county.csv\")\n\ncensus_county[[\"state\",\"county\",\"NAME\"]].head()\n\n\nnew = census_county[\"NAME\"].str.split(\", \", expand = True)\ncensus_county[\"county_name\"] = new[0]\ncensus_county[\"state_name\"] = new[1]\n\ncensus_county.drop(columns=['NAME'], inplace=True)\ncensus_county.head()\n\n\n\n\n\n\n  \n    \n      \n      state\n      county\n      median_income\n      population\n      year\n      county_name\n      state_name\n    \n  \n  \n    \n      0\n      37\n      43\n      36711.0\n      10506\n      2011\n      Clay County\n      North Carolina\n    \n    \n      1\n      37\n      51\n      44861.0\n      316478\n      2011\n      Cumberland County\n      North Carolina\n    \n    \n      2\n      37\n      81\n      46288.0\n      483081\n      2011\n      Guilford County\n      North Carolina\n    \n    \n      3\n      37\n      99\n      36826.0\n      39574\n      2011\n      Jackson County\n      North Carolina\n    \n    \n      4\n      37\n      139\n      45298.0\n      40511\n      2011\n      Pasquotank County\n      North Carolina"
   },
   {
     "objectID": "data_transformation.html#understanding-the-data",
@@ -140,34 +133,6 @@
     "text": "Correlations\n\n\nCode\ncorr = sales.select_dtypes(include='int64').corr(numeric_only = False)\ncorr\n\n\n\n\n\n\n  \n    \n      \n      Day\n      Month\n      Year\n      Customer_Age\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n    \n  \n  \n    \n      Day\n      1.000000\n      0.014963\n      -0.007635\n      -0.014296\n      -0.002412\n      0.003133\n      0.003207\n      0.004623\n      0.003329\n      0.003853\n    \n    \n      Month\n      0.014963\n      1.000000\n      -0.315359\n      -0.051234\n      0.028175\n      -0.021202\n      -0.021218\n      -0.002004\n      -0.006700\n      -0.005224\n    \n    \n      Year\n      -0.007635\n      -0.315359\n      1.000000\n      0.040994\n      0.123169\n      -0.217575\n      -0.213673\n      -0.181525\n      -0.215604\n      -0.208673\n    \n    \n      Customer_Age\n      -0.014296\n      -0.051234\n      0.040994\n      1.000000\n      0.026887\n      -0.021374\n      -0.020262\n      0.004319\n      -0.016013\n      -0.009326\n    \n    \n      Order_Quantity\n      -0.002412\n      0.028175\n      0.123169\n      0.026887\n      1.000000\n      -0.515835\n      -0.515925\n      -0.238863\n      -0.340382\n      -0.312895\n    \n    \n      Unit_Cost\n      0.003133\n      -0.021202\n      -0.217575\n      -0.021374\n      -0.515835\n      1.000000\n      0.997894\n      0.741020\n      0.829869\n      0.817865\n    \n    \n      Unit_Price\n      0.003207\n      -0.021218\n      -0.213673\n      -0.020262\n      -0.515925\n      0.997894\n      1.000000\n      0.749870\n      0.826301\n      0.818522\n    \n    \n      Profit\n      0.004623\n      -0.002004\n      -0.181525\n      0.004319\n      -0.238863\n      0.741020\n      0.749870\n      1.000000\n      0.902233\n      0.956572\n    \n    \n      Cost\n      0.003329\n      -0.006700\n      -0.215604\n      -0.016013\n      -0.340382\n      0.829869\n      0.826301\n      0.902233\n      1.000000\n      0.988758\n    \n    \n      Revenue\n      0.003853\n      -0.005224\n      -0.208673\n      -0.009326\n      -0.312895\n      0.817865\n      0.818522\n      0.956572\n      0.988758\n      1.000000\n    \n  \n\n\n\n\n\n\nCode\npx.imshow(corr)"
   },
   {
-    "objectID": "data_transformation.html#reading-csv",
-    "href": "data_transformation.html#reading-csv",
-    "title": "Data Transformation",
-    "section": "Reading CSV",
-    "text": "Reading CSV\n\n\nCode\nsales = pd.read_csv(\n    'data/sales_data.csv',\n    parse_dates=['Date']\n)\n\nsales.head()\n\n\n\n\n\n\n  \n    \n      \n      Date\n      Day\n      Month\n      Year\n      Customer_Age\n      Age_Group\n      Customer_Gender\n      Country\n      State\n      Product_Category\n      Sub_Category\n      Product\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n    \n  \n  \n    \n      0\n      2013-11-26\n      26\n      November\n      2013\n      19\n      Youth (<25)\n      M\n      Canada\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950\n    \n    \n      1\n      2015-11-26\n      26\n      November\n      2015\n      19\n      Youth (<25)\n      M\n      Canada\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950\n    \n    \n      2\n      2014-03-23\n      23\n      March\n      2014\n      49\n      Adults (35-64)\n      M\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      23\n      45\n      120\n      1366\n      1035\n      2401\n    \n    \n      3\n      2016-03-23\n      23\n      March\n      2016\n      49\n      Adults (35-64)\n      M\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      20\n      45\n      120\n      1188\n      900\n      2088\n    \n    \n      4\n      2014-05-15\n      15\n      May\n      2014\n      47\n      Adults (35-64)\n      F\n      Australia\n      New South Wales\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      4\n      45\n      120\n      238\n      180\n      418"
-  },
-  {
-    "objectID": "data_transformation.html#adding-column-names",
-    "href": "data_transformation.html#adding-column-names",
-    "title": "Data Transformation",
-    "section": "Adding Column Names",
-    "text": "Adding Column Names\n\n\nCode\nmarvel_data = [\n    ['Spider-Man', 'male', 1962],\n    ['Captain America', 'male', 1941],\n    ['Wolverine', 'male', 1974],\n    ['Iron Man', 'male', 1963],\n    ['Thor', 'male', 1963],\n    ['Thing', 'male', 1961],\n    ['Mister Fantastic', 'male', 1961],\n    ['Hulk', 'male', 1962],\n    ['Beast', 'male', 1963],\n    ['Invisible Woman', 'female', 1961],\n    ['Storm', 'female', 1975],\n    ['Namor', 'male', 1939],\n    ['Hawkeye', 'male', 1964],\n    ['Daredevil', 'male', 1964],\n    ['Doctor Strange', 'male', 1963],\n    ['Hank Pym', 'male', 1962],\n    ['Scarlet Witch', 'female', 1964],\n    ['Wasp', 'female', 1963],\n    ['Black Widow', 'female', 1964],\n    ['Vision', 'male', 1968]\n]\n\nmarvel_df = pd.DataFrame(data=marvel_data,\n                         columns=['name', 'sex', 'first_appearance'])\nmarvel_df\n\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      first_appearance\n    \n  \n  \n    \n      0\n      Spider-Man\n      male\n      1962\n    \n    \n      1\n      Captain America\n      male\n      1941\n    \n    \n      2\n      Wolverine\n      male\n      1974\n    \n    \n      3\n      Iron Man\n      male\n      1963\n    \n    \n      4\n      Thor\n      male\n      1963\n    \n    \n      5\n      Thing\n      male\n      1961\n    \n    \n      6\n      Mister Fantastic\n      male\n      1961\n    \n    \n      7\n      Hulk\n      male\n      1962\n    \n    \n      8\n      Beast\n      male\n      1963\n    \n    \n      9\n      Invisible Woman\n      female\n      1961\n    \n    \n      10\n      Storm\n      female\n      1975\n    \n    \n      11\n      Namor\n      male\n      1939\n    \n    \n      12\n      Hawkeye\n      male\n      1964\n    \n    \n      13\n      Daredevil\n      male\n      1964\n    \n    \n      14\n      Doctor Strange\n      male\n      1963\n    \n    \n      15\n      Hank Pym\n      male\n      1962\n    \n    \n      16\n      Scarlet Witch\n      female\n      1964\n    \n    \n      17\n      Wasp\n      female\n      1963\n    \n    \n      18\n      Black Widow\n      female\n      1964\n    \n    \n      19\n      Vision\n      male\n      1968"
-  },
-  {
-    "objectID": "data_transformation.html#adding-column-names-when-reading-csv",
-    "href": "data_transformation.html#adding-column-names-when-reading-csv",
-    "title": "Data Transformation",
-    "section": "Adding Column Names When Reading CSV",
-    "text": "Adding Column Names When Reading CSV\n\n\nCode\nbtc_price = pd.read_csv(\n    'data/btc-market-price.csv',\n    header=None,\n    names=['Timestamp', 'Price'],\n    index_col=0, # this sets the column in this instance its the first column 1\n    # index_col='Timestamp',  # You can also add the column name\n    parse_dates=True\n)\n\nbtc_price.head()\n\n\n\n\n\n\n  \n    \n      \n      Price\n    \n    \n      Timestamp\n      \n    \n  \n  \n    \n      2017-04-02\n      1099.169125\n    \n    \n      2017-04-03\n      1141.813000\n    \n    \n      2017-04-04\n      1141.600363\n    \n    \n      2017-04-05\n      1133.079314\n    \n    \n      2017-04-06\n      1196.307937"
-  },
-  {
-    "objectID": "data_transformation.html#date-diff-calc",
-    "href": "data_transformation.html#date-diff-calc",
-    "title": "Data Transformation",
-    "section": "Date Diff Calc",
-    "text": "Date Diff Calc\n\n\nCode\nimport datetime\n\nyear = datetime.date.today().year\n\nmarvel_df['years_since'] = year - marvel_df['first_appearance']\nmarvel_df\n\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      first_appearance\n      years_since\n    \n  \n  \n    \n      0\n      Spider-Man\n      male\n      1962\n      61\n    \n    \n      1\n      Captain America\n      male\n      1941\n      82\n    \n    \n      2\n      Wolverine\n      male\n      1974\n      49\n    \n    \n      3\n      Iron Man\n      male\n      1963\n      60\n    \n    \n      4\n      Thor\n      male\n      1963\n      60\n    \n    \n      5\n      Thing\n      male\n      1961\n      62\n    \n    \n      6\n      Mister Fantastic\n      male\n      1961\n      62\n    \n    \n      7\n      Hulk\n      male\n      1962\n      61\n    \n    \n      8\n      Beast\n      male\n      1963\n      60\n    \n    \n      9\n      Invisible Woman\n      female\n      1961\n      62\n    \n    \n      10\n      Storm\n      female\n      1975\n      48\n    \n    \n      11\n      Namor\n      male\n      1939\n      84\n    \n    \n      12\n      Hawkeye\n      male\n      1964\n      59\n    \n    \n      13\n      Daredevil\n      male\n      1964\n      59\n    \n    \n      14\n      Doctor Strange\n      male\n      1963\n      60\n    \n    \n      15\n      Hank Pym\n      male\n      1962\n      61\n    \n    \n      16\n      Scarlet Witch\n      female\n      1964\n      59\n    \n    \n      17\n      Wasp\n      female\n      1963\n      60\n    \n    \n      18\n      Black Widow\n      female\n      1964\n      59\n    \n    \n      19\n      Vision\n      male\n      1968\n      55"
-  },
-  {
     "objectID": "data_transformation.html#modifying-all",
     "href": "data_transformation.html#modifying-all",
     "title": "Data Transformation",
@@ -182,13 +147,6 @@
     "text": "Working with loc\n\n\nCode\nmarvel_df.loc['Vision', 'first_appearance'] = 1964\nmarvel_df\n\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      first_appearance\n      years_since\n    \n  \n  \n    \n      0\n      Spider-Man\n      male\n      1962.0\n      61.0\n    \n    \n      1\n      Captain America\n      male\n      1941.0\n      82.0\n    \n    \n      2\n      Wolverine\n      male\n      1974.0\n      49.0\n    \n    \n      3\n      Iron Man\n      male\n      1963.0\n      60.0\n    \n    \n      4\n      Thor\n      male\n      1963.0\n      60.0\n    \n    \n      5\n      Thing\n      male\n      1961.0\n      62.0\n    \n    \n      6\n      Mister Fantastic\n      male\n      1961.0\n      62.0\n    \n    \n      7\n      Hulk\n      male\n      1962.0\n      61.0\n    \n    \n      8\n      Beast\n      male\n      1963.0\n      60.0\n    \n    \n      9\n      Invisible Woman\n      female\n      1961.0\n      62.0\n    \n    \n      10\n      Storm\n      female\n      1975.0\n      48.0\n    \n    \n      11\n      Namor\n      male\n      1939.0\n      84.0\n    \n    \n      12\n      Hawkeye\n      male\n      1964.0\n      59.0\n    \n    \n      13\n      Daredevil\n      male\n      1964.0\n      59.0\n    \n    \n      14\n      Doctor Strange\n      male\n      1963.0\n      60.0\n    \n    \n      15\n      Hank Pym\n      male\n      1962.0\n      61.0\n    \n    \n      16\n      Scarlet Witch\n      female\n      1964.0\n      59.0\n    \n    \n      17\n      Wasp\n      female\n      1963.0\n      60.0\n    \n    \n      18\n      Black Widow\n      female\n      1964.0\n      59.0\n    \n    \n      19\n      Vision\n      male\n      1968.0\n      55.0\n    \n    \n      Vision\n      NaN\n      NaN\n      1964.0\n      NaN\n    \n  \n\n\n\n\n\n\nCode\nsales.loc[sales['Country'] == 'France', 'Revenue'].head()\n\n\n50     787\n51     787\n52    2957\n53    2851\n60     626\nName: Revenue, dtype: int64\n\n\n\n\nCode\nsales.loc[sales['Country'] == 'France', 'Revenue'] *= 1.10\nsales.loc[sales['Country'] == 'France', 'Revenue'].head()\n\n\n50     865.7\n51     865.7\n52    3252.7\n53    3136.1\n60     688.6\nName: Revenue, dtype: float64\n\n\n\n\nCode\ncrisis = pd.Series([-1_000_000, -0.3], index=['GDP', 'HDI'])\ncrisis\n\n\nGDP   -1000000.0\nHDI         -0.3\ndtype: float64\n\n\n\n\nCode\ncrisis[['GDP', 'HDI']] + crisis\n\n\nGDP   -2000000.0\nHDI         -0.6\ndtype: float64"
   },
   {
-    "objectID": "data_transformation.html#wide-to-long",
-    "href": "data_transformation.html#wide-to-long",
-    "title": "Data Transformation",
-    "section": "Wide to Long",
-    "text": "Wide to Long\n\n\nCode\nyear_list=list(df_wide.columns)\ndf_long = pd.melt(df_wide, value_vars=year_list,value_name='Avg. Price ($)', ignore_index=False).reset_index()\ndf_long\n\n\n\n\n\n\n  \n    \n      \n      Series ID\n      Item\n      Year Month\n      Avg. Price ($)\n    \n  \n  \n    \n      0\n      APU0000702111\n      Bread, whilte per lb\n      2020 Apr\n      1.406\n    \n    \n      1\n      APU0000708111\n      Eggs, large per doz\n      2020 Apr\n      2.019\n    \n    \n      2\n      APU0000709112\n      Milk, Whole per gal\n      2020 Apr\n      3.267\n    \n    \n      3\n      APU0000702111\n      Bread, whilte per lb\n      2020 Aug\n      1.495\n    \n    \n      4\n      APU0000708111\n      Eggs, large per doz\n      2020 Aug\n      1.328\n    \n    \n      ...\n      ...\n      ...\n      ...\n      ...\n    \n    \n      97\n      APU0000708111\n      Eggs, large per doz\n      2022 Oct\n      3.419\n    \n    \n      98\n      APU0000709112\n      Milk, Whole per gal\n      2022 Oct\n      4.184\n    \n    \n      99\n      APU0000702111\n      Bread, whilte per lb\n      2022 Sep\n      1.749\n    \n    \n      100\n      APU0000708111\n      Eggs, large per doz\n      2022 Sep\n      2.902\n    \n    \n      101\n      APU0000709112\n      Milk, Whole per gal\n      2022 Sep\n      4.181\n    \n  \n\n102 rows × 4 columns"
-  },
-  {
     "objectID": "data_transformation.html#long-to-wide",
     "href": "data_transformation.html#long-to-wide",
     "title": "Data Transformation",
@@ -196,18 +154,11 @@
     "text": "Long to Wide\n\n\nCode\n# https://beta.bls.gov/dataQuery/find?fq=survey:[ap]&s=popularity:D\n# This data came from bls\ndf_long = pd.read_csv(\"data/file.csv\")\ndf_long\n\n\n\n\n\n\n  \n    \n      \n      Series ID\n      Item\n      Year Month\n      Avg. Price ($)\n    \n  \n  \n    \n      0\n      APU0000702111\n      Bread, whilte per lb\n      2020 Jan\n      1.351\n    \n    \n      1\n      APU0000702111\n      Bread, whilte per lb\n      2020 Feb\n      1.375\n    \n    \n      2\n      APU0000702111\n      Bread, whilte per lb\n      2020 Mar\n      1.374\n    \n    \n      3\n      APU0000702111\n      Bread, whilte per lb\n      2020 Apr\n      1.406\n    \n    \n      4\n      APU0000702111\n      Bread, whilte per lb\n      2020 May\n      1.412\n    \n    \n      ...\n      ...\n      ...\n      ...\n      ...\n    \n    \n      97\n      APU0000709112\n      Milk, Whole per gal\n      2022 Jun\n      4.153\n    \n    \n      98\n      APU0000709112\n      Milk, Whole per gal\n      2022 Jul\n      4.156\n    \n    \n      99\n      APU0000709112\n      Milk, Whole per gal\n      2022 Aug\n      4.194\n    \n    \n      100\n      APU0000709112\n      Milk, Whole per gal\n      2022 Sep\n      4.181\n    \n    \n      101\n      APU0000709112\n      Milk, Whole per gal\n      2022 Oct\n      4.184\n    \n  \n\n102 rows × 4 columns\n\n\n\n\n\nCode\n# unmelting using pivot()\ndf_wide=pd.pivot(df_long, index=['Series ID','Item'], columns = 'Year Month',values = 'Avg. Price ($)') #Reshape from long to wide\n\ndf_wide.reset_index()\n\n\n\n\n\n\n  \n    \n      Year Month\n      Series ID\n      Item\n      2020 Apr\n      2020 Aug\n      2020 Dec\n      2020 Feb\n      2020 Jan\n      2020 Jul\n      2020 Jun\n      2020 Mar\n      ...\n      2022 Apr\n      2022 Aug\n      2022 Feb\n      2022 Jan\n      2022 Jul\n      2022 Jun\n      2022 Mar\n      2022 May\n      2022 Oct\n      2022 Sep\n    \n  \n  \n    \n      0\n      APU0000702111\n      Bread, whilte per lb\n      1.406\n      1.495\n      1.538\n      1.375\n      1.351\n      1.485\n      1.474\n      1.374\n      ...\n      1.612\n      1.756\n      1.578\n      1.555\n      1.715\n      1.691\n      1.607\n      1.606\n      1.814\n      1.749\n    \n    \n      1\n      APU0000708111\n      Eggs, large per doz\n      2.019\n      1.328\n      1.481\n      1.449\n      1.461\n      1.401\n      1.554\n      1.525\n      ...\n      2.520\n      3.116\n      2.005\n      1.929\n      2.936\n      2.707\n      2.046\n      2.863\n      3.419\n      2.902\n    \n    \n      2\n      APU0000709112\n      Milk, Whole per gal\n      3.267\n      3.406\n      3.535\n      3.196\n      3.253\n      3.255\n      3.198\n      3.248\n      ...\n      4.012\n      4.194\n      3.875\n      3.787\n      4.156\n      4.153\n      3.917\n      4.204\n      4.184\n      4.181\n    \n  \n\n3 rows × 36 columns"
   },
   {
-    "objectID": "test/test.html",
-    "href": "test/test.html",
-    "title": "Regression",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "test/test.html#running-code",
-    "href": "test/test.html#running-code",
-    "title": "Regression",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\nCode\n1 + 1\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "objectID": "data_transformation.html#wide-to-long",
+    "href": "data_transformation.html#wide-to-long",
+    "title": "Data Transformation",
+    "section": "Wide to Long",
+    "text": "Wide to Long\n\n\nCode\nyear_list=list(df_wide.columns)\ndf_long = pd.melt(df_wide, value_vars=year_list,value_name='Avg. Price ($)', ignore_index=False).reset_index()\ndf_long\n\n\n\n\n\n\n  \n    \n      \n      Series ID\n      Item\n      Year Month\n      Avg. Price ($)\n    \n  \n  \n    \n      0\n      APU0000702111\n      Bread, whilte per lb\n      2020 Apr\n      1.406\n    \n    \n      1\n      APU0000708111\n      Eggs, large per doz\n      2020 Apr\n      2.019\n    \n    \n      2\n      APU0000709112\n      Milk, Whole per gal\n      2020 Apr\n      3.267\n    \n    \n      3\n      APU0000702111\n      Bread, whilte per lb\n      2020 Aug\n      1.495\n    \n    \n      4\n      APU0000708111\n      Eggs, large per doz\n      2020 Aug\n      1.328\n    \n    \n      ...\n      ...\n      ...\n      ...\n      ...\n    \n    \n      97\n      APU0000708111\n      Eggs, large per doz\n      2022 Oct\n      3.419\n    \n    \n      98\n      APU0000709112\n      Milk, Whole per gal\n      2022 Oct\n      4.184\n    \n    \n      99\n      APU0000702111\n      Bread, whilte per lb\n      2022 Sep\n      1.749\n    \n    \n      100\n      APU0000708111\n      Eggs, large per doz\n      2022 Sep\n      2.902\n    \n    \n      101\n      APU0000709112\n      Milk, Whole per gal\n      2022 Sep\n      4.181\n    \n  \n\n102 rows × 4 columns"
   },
   {
     "objectID": "data_transformation.html#calculating-percentage-share",
@@ -259,11 +210,11 @@
     "text": "Weighted Average Calculation\n\nOption 1 (Best)\n\n\nCode\ncensus_wavg = census_county.groupby('state_name').agg(\n  population = ('population',np.sum),\n  weighted_avg=('median_income', lambda x: np.average(x, weights=census_county.loc[x.index, 'population']))\n  )\n\ncensus_wavg.reset_index().head()\n\n\n\n\n\n\n  \n    \n      \n      state_name\n      population\n      weighted_avg\n    \n  \n  \n    \n      0\n      Alabama\n      43405190\n      45992.716379\n    \n    \n      1\n      Alaska\n      6544837\n      73239.142710\n    \n    \n      2\n      Arizona\n      59967006\n      52773.774548\n    \n    \n      3\n      Arkansas\n      26587370\n      43271.158347\n    \n    \n      4\n      California\n      344511143\n      66478.837893\n    \n  \n\n\n\n\n\n\nOption 2\n\n\nCode\ncensus_wavg = census_county.groupby('state_name').apply(lambda x: np.average(x['median_income'], weights=x['population'])).reset_index()\ncensus_wavg = census_wavg.rename(columns = {0:'median_income'})\ncensus_wavg.head()\n\n\n\n\n\n\n  \n    \n      \n      state_name\n      median_income\n    \n  \n  \n    \n      0\n      Alabama\n      45992.716379\n    \n    \n      1\n      Alaska\n      73239.142710\n    \n    \n      2\n      Arizona\n      52773.774548\n    \n    \n      3\n      Arkansas\n      43271.158347\n    \n    \n      4\n      California\n      66478.837893\n    \n  \n\n\n\n\n\n\nOption 3\n\n\nCode\n# define a custom function to calculate the weighted average\ndef weighted_average(df, value_column, weight_column):\n    return (df[value_column] * df[weight_column]).sum() / df[weight_column].sum()\n\n# group by the 'group' column and apply the custom function to calculate the weighted average within each group\ncensus_wavg = census_county.groupby('state_name').apply(\n  weighted_average, value_column='median_income', weight_column='population'\n  ).reset_index()\n  \ncensus_wavg = census_wavg.rename(columns = {0:'medain_income'}).head()\ncensus_wavg\n\n\n\n\n\n\n  \n    \n      \n      state_name\n      medain_income\n    \n  \n  \n    \n      0\n      Alabama\n      45992.716379\n    \n    \n      1\n      Alaska\n      73239.142710\n    \n    \n      2\n      Arizona\n      52773.774548\n    \n    \n      3\n      Arkansas\n      43271.158347\n    \n    \n      4\n      California\n      66478.837893"
   },
   {
-    "objectID": "data_transformation.html#filtering",
-    "href": "data_transformation.html#filtering",
+    "objectID": "data_transformation.html#single-filter",
+    "href": "data_transformation.html#single-filter",
     "title": "Data Transformation",
-    "section": "Filtering",
-    "text": "Filtering\n\n\nCode\nsales = sales.set_index('Country')\nsales.loc['Canada'].head()\n\n\n\n\n\n\n  \n    \n      \n      Date\n      Day\n      Month\n      Year\n      Customer_Age\n      Age_Group\n      Customer_Gender\n      State\n      Product_Category\n      Sub_Category\n      Product\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n      Revenue_per_Age\n      Calculated_Cost\n    \n    \n      Country\n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      Canada\n      2013-11-26\n      26\n      11\n      2013\n      19\n      Youth (<25)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950.0\n      50.000000\n      370.80\n    \n    \n      Canada\n      2015-11-26\n      26\n      11\n      2015\n      19\n      Youth (<25)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950.0\n      50.000000\n      370.80\n    \n    \n      Canada\n      2013-08-02\n      2\n      8\n      2013\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      5\n      45\n      120\n      369\n      225\n      594.0\n      20.482759\n      231.75\n    \n    \n      Canada\n      2015-08-02\n      2\n      8\n      2015\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      7\n      45\n      120\n      517\n      315\n      832.0\n      28.689655\n      324.45\n    \n    \n      Canada\n      2013-09-02\n      2\n      9\n      2013\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      2\n      45\n      120\n      148\n      90\n      238.0\n      8.206897\n      92.70"
+    "section": "Single Filter",
+    "text": "Single Filter\n\n\nCode\nsales = sales.set_index('Country')\nsales.loc['Canada'].head()\n\n\n\n\n\n\n  \n    \n      \n      Date\n      Day\n      Month\n      Year\n      Customer_Age\n      Age_Group\n      Customer_Gender\n      State\n      Product_Category\n      Sub_Category\n      Product\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n      Revenue_per_Age\n      Calculated_Cost\n    \n    \n      Country\n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      Canada\n      2013-11-26\n      26\n      11\n      2013\n      19\n      Youth (<25)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950.0\n      50.000000\n      370.80\n    \n    \n      Canada\n      2015-11-26\n      26\n      11\n      2015\n      19\n      Youth (<25)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950.0\n      50.000000\n      370.80\n    \n    \n      Canada\n      2013-08-02\n      2\n      8\n      2013\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      5\n      45\n      120\n      369\n      225\n      594.0\n      20.482759\n      231.75\n    \n    \n      Canada\n      2015-08-02\n      2\n      8\n      2015\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      7\n      45\n      120\n      517\n      315\n      832.0\n      28.689655\n      324.45\n    \n    \n      Canada\n      2013-09-02\n      2\n      9\n      2013\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      2\n      45\n      120\n      148\n      90\n      238.0\n      8.206897\n      92.70"
   },
   {
     "objectID": "data_transformation.html#filtering-multiple-values",
@@ -285,13 +236,6 @@
     "title": "Data Transformation",
     "section": "Filtering + Aggregating",
     "text": "Filtering + Aggregating\nGet the mean revenue of the Adults (35-64) sales group\n\n\nCode\nsales.loc[sales['Age_Group']=='Adults (35-64)', 'Revenue'].mean()\n\n\n769.3162152479221\n\n\nHow Many Records belong to Age Group Youth (<25) or Adults 35-64?\n\n\nCode\nsales.loc[(sales['Age_Group'] == 'Youth (<25)') | (sales['Age_Group'] == 'Adults (35-64)')].shape[0]\n\n\n73652\n\n\nGet the mean revenue of the sales group Adults (35-64) in United States\n\n\nCode\nsales.loc[(sales['Age_Group'] == 'Adults (35-64)') & (sales['Country'] == 'United States'), 'Revenue'].mean()\n\n\n726.7260473588342"
-  },
-  {
-    "objectID": "data_transformation.html#single-filter",
-    "href": "data_transformation.html#single-filter",
-    "title": "Data Transformation",
-    "section": "Single Filter",
-    "text": "Single Filter\n\n\nCode\nsales = sales.set_index('Country')\nsales.loc['Canada'].head()\n\n\n\n\n\n\n  \n    \n      \n      Date\n      Day\n      Month\n      Year\n      Customer_Age\n      Age_Group\n      Customer_Gender\n      State\n      Product_Category\n      Sub_Category\n      Product\n      Order_Quantity\n      Unit_Cost\n      Unit_Price\n      Profit\n      Cost\n      Revenue\n      Revenue_per_Age\n      Calculated_Cost\n    \n    \n      Country\n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      Canada\n      2013-11-26\n      26\n      11\n      2013\n      19\n      Youth (<25)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950.0\n      50.000000\n      370.80\n    \n    \n      Canada\n      2015-11-26\n      26\n      11\n      2015\n      19\n      Youth (<25)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      8\n      45\n      120\n      590\n      360\n      950.0\n      50.000000\n      370.80\n    \n    \n      Canada\n      2013-08-02\n      2\n      8\n      2013\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      5\n      45\n      120\n      369\n      225\n      594.0\n      20.482759\n      231.75\n    \n    \n      Canada\n      2015-08-02\n      2\n      8\n      2015\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      7\n      45\n      120\n      517\n      315\n      832.0\n      28.689655\n      324.45\n    \n    \n      Canada\n      2013-09-02\n      2\n      9\n      2013\n      29\n      Young Adults (25-34)\n      M\n      British Columbia\n      Accessories\n      Bike Racks\n      Hitch Rack - 4-Bike\n      2\n      45\n      120\n      148\n      90\n      238.0\n      8.206897\n      92.70"
   },
   {
     "objectID": "data_transformation.html#columns-upper-case",
@@ -425,327 +369,5 @@
     "title": "Data Transformation",
     "section": "Multiple Condition",
     "text": "Multiple Condition\n\n\nCode\ncensus_state[\"sun_belt\"] = np.where((census_state[\"state_name\"] == 'Arizona') |\n                                    (census_state[\"state_name\"] == 'Nevada') |\n                                    (census_state[\"state_name\"] == 'New Mexico'), True, False).copy()\ncensus_state\n\n\n\n\n\n\n  \n    \n      \n      state_name\n      medain_income\n      population\n      is_arizona\n      sun_belt\n    \n  \n  \n    \n      0\n      Alabama\n      45992.716379\n      43405190\n      False\n      False\n    \n    \n      1\n      Alaska\n      73239.142710\n      6544837\n      False\n      False\n    \n    \n      2\n      Arizona\n      52773.774548\n      59967006\n      True\n      True\n    \n    \n      3\n      Arkansas\n      43271.158347\n      26587370\n      False\n      False\n    \n    \n      4\n      California\n      66478.837893\n      344511143\n      False\n      False"
-  },
-  {
-    "objectID": "machine_learning_regression.html#quarto",
-    "href": "machine_learning_regression.html#quarto",
-    "title": "Regression",
-    "section": "Quarto",
-    "text": "Quarto\nQuarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "machine_learning_regression.html#option-1-iloc",
-    "href": "machine_learning_regression.html#option-1-iloc",
-    "title": "Regression",
-    "section": "Option 1: iloc",
-    "text": "Option 1: iloc\n\n\nCode\nX = dataset.iloc[:, :-1].values\ny = dataset.iloc[:, -1].values\n\n\n\n\nCode\nfrom sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#option-2-not-iloc",
-    "href": "machine_learning_regression.html#option-2-not-iloc",
-    "title": "Regression",
-    "section": "Option 2: Not iloc",
-    "text": "Option 2: Not iloc\n\n\nCode\nX_train, X_test, y_train, y_test = train_test_split(\n  dataset.drop(columns = 'PE'),\n  dataset.PE,\n  test_size = 0.25, \n  random_state = 0)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance",
-    "href": "machine_learning_regression.html#model-performance",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\ndataset['PE'].describe()\n\n\ncount    9568.000000\nmean      454.365009\nstd        17.066995\nmin       420.260000\n25%       439.750000\n50%       451.550000\n75%       468.430000\nmax       495.760000\nName: PE, dtype: float64\n\n\n\n\nCode\nfrom sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 93.24%\nMSE Score: 19.83\nRMSE Score: 4.45\nRMSE Score: 4.45\nMAE Score: 3.56"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance-1",
-    "href": "machine_learning_regression.html#model-performance-1",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\ndataset['AT'].describe()\n\n\ncount    9568.000000\nmean       19.651231\nstd         7.452473\nmin         1.810000\n25%        13.510000\n50%        20.345000\n75%        25.720000\nmax        37.110000\nName: AT, dtype: float64\n\n\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 94.60%\nMSE Score: 15.85\nRMSE Score: 3.98\nRMSE Score: 3.98\nMAE Score: 3.12"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance-2",
-    "href": "machine_learning_regression.html#model-performance-2",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 96.09%\nMSE Score: 11.48\nRMSE Score: 3.39\nRMSE Score: 3.39\nMAE Score: 2.50"
-  },
-  {
-    "objectID": "machine_learning_regression.html#prediction",
-    "href": "machine_learning_regression.html#prediction",
-    "title": "Regression",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = regressor.predict(X_test)\ny_pred[:5]\n\n\narray([431.43458966, 458.57522935, 462.76604909, 448.60649816,\n       457.87605198])"
-  },
-  {
-    "objectID": "machine_learning_regression.html#predicition",
-    "href": "machine_learning_regression.html#predicition",
-    "title": "Regression",
-    "section": "Predicition",
-    "text": "Predicition\n\n\nCode\ny_pred = regressor.predict(poly_reg.transform(X_test))\nnp.set_printoptions(precision=2)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#prediction-1",
-    "href": "machine_learning_regression.html#prediction-1",
-    "title": "Regression",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = regressor.predict(X_test)\nnp.set_printoptions(precision=2)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#feature-scaling",
-    "href": "machine_learning_regression.html#feature-scaling",
-    "title": "Regression",
-    "section": "Feature Scaling",
-    "text": "Feature Scaling\n\n\nCode\nfrom sklearn.preprocessing import StandardScaler\nsc = StandardScaler()\n\nX_train = sc.fit_transform(X_train)\nX_test = sc.transform(X_test)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#inverse-transform",
-    "href": "machine_learning_regression.html#inverse-transform",
-    "title": "Regression",
-    "section": "Inverse Transform",
-    "text": "Inverse Transform\nThis un transforms the data\n\n\nCode\nprint(X_train[:1])\n\nX_train = sc.inverse_transform(X_train)\nX_test = sc.inverse_transform(X_test)\n\nprint(X_train[:1])\n\nX_train = sc.fit_transform(X_train)\nX_test = sc.transform(X_test)\n\n\n[[-0.73 -0.91  3.15 -0.25]]\n[[  14.2    42.86 1031.96   69.59]]"
-  },
-  {
-    "objectID": "machine_learning_regression.html#linear-kernal",
-    "href": "machine_learning_regression.html#linear-kernal",
-    "title": "Regression",
-    "section": "Linear Kernal",
-    "text": "Linear Kernal\n\n\nCode\nfrom sklearn.svm import SVR\nregressor = SVR(kernel = 'linear')\nregressor.fit(X_train, y_train)\n\n\nSVR(kernel='linear')In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVRSVR(kernel='linear')\n\n\n\nPrediction\n\n\nCode\ny_pred = regressor.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 93.20%\nMSE Score: 19.94\nRMSE Score: 4.47\nRMSE Score: 4.47\nMAE Score: 3.55"
-  },
-  {
-    "objectID": "machine_learning_regression.html#prediction-2",
-    "href": "machine_learning_regression.html#prediction-2",
-    "title": "Regression",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = regressor.predict(X_test)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance-3",
-    "href": "machine_learning_regression.html#model-performance-3",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 93.20%\nMSE Score: 19.94\nRMSE Score: 4.47\nRMSE Score: 4.47\nMAE Score: 3.55"
-  },
-  {
-    "objectID": "machine_learning_regression.html#polynomial-kernal",
-    "href": "machine_learning_regression.html#polynomial-kernal",
-    "title": "Regression",
-    "section": "Polynomial Kernal",
-    "text": "Polynomial Kernal\n\n\nCode\nfrom sklearn.svm import SVR\nregressor = SVR(kernel = 'poly')\nregressor.fit(X_train, y_train)\n\n\nSVR(kernel='poly')In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVRSVR(kernel='poly')\n\n\n\nPrediction\n\n\nCode\ny_pred = regressor.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 78.31%\nMSE Score: 63.61\nRMSE Score: 7.98\nRMSE Score: 7.98\nMAE Score: 6.25"
-  },
-  {
-    "objectID": "machine_learning_regression.html#prediction-3",
-    "href": "machine_learning_regression.html#prediction-3",
-    "title": "Regression",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = regressor.predict(X_test)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance-4",
-    "href": "machine_learning_regression.html#model-performance-4",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 78.31%\nMSE Score: 63.61\nRMSE Score: 7.98\nRMSE Score: 7.98\nMAE Score: 6.25"
-  },
-  {
-    "objectID": "machine_learning_regression.html#radial-basis-function-rbf-kernal",
-    "href": "machine_learning_regression.html#radial-basis-function-rbf-kernal",
-    "title": "Regression",
-    "section": "Radial Basis Function (RBF) Kernal",
-    "text": "Radial Basis Function (RBF) Kernal\n\n\nCode\nfrom sklearn.svm import SVR\nregressor = SVR(kernel = 'rbf')\nregressor.fit(X_train, y_train)\n\n\nSVR()In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVRSVR()\n\n\n\nPrediction\n\n\nCode\ny_pred = regressor.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 94.31%\nMSE Score: 16.68\nRMSE Score: 4.08\nRMSE Score: 4.08\nMAE Score: 3.14"
-  },
-  {
-    "objectID": "machine_learning_regression.html#prediction-4",
-    "href": "machine_learning_regression.html#prediction-4",
-    "title": "Regression",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = regressor.predict(X_test)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance-5",
-    "href": "machine_learning_regression.html#model-performance-5",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: 94.31%\nMSE Score: 16.68\nRMSE Score: 4.08\nRMSE Score: 4.08\nMAE Score: 3.14"
-  },
-  {
-    "objectID": "machine_learning_regression.html#sigmoid-kernal",
-    "href": "machine_learning_regression.html#sigmoid-kernal",
-    "title": "Regression",
-    "section": "Sigmoid Kernal",
-    "text": "Sigmoid Kernal\n\n\nCode\nfrom sklearn.svm import SVR\nregressor = SVR(kernel = 'sigmoid')\nregressor.fit(X_train, y_train)\n\n\nSVR(kernel='sigmoid')In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVRSVR(kernel='sigmoid')\n\n\n\nPrediction\n\n\nCode\ny_pred = regressor.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: -7452.15%\nMSE Score: 22149.23\nRMSE Score: 148.83\nRMSE Score: 148.83\nMAE Score: 113.29"
-  },
-  {
-    "objectID": "machine_learning_regression.html#prediction-5",
-    "href": "machine_learning_regression.html#prediction-5",
-    "title": "Regression",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = regressor.predict(X_test)"
-  },
-  {
-    "objectID": "machine_learning_regression.html#model-performance-6",
-    "href": "machine_learning_regression.html#model-performance-6",
-    "title": "Regression",
-    "section": "Model Performance",
-    "text": "Model Performance\n\n\nCode\nprint(\"R2 Score: {:.2f}%\".format(r2_score(y_test, y_pred)*100))\nprint(\"MSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred)))\nprint(\"RMSE Score: {:.2f}\".format(mean_squared_error(y_test, y_pred, squared=False)))\nprint(\"RMSE Score: {:.2f}\".format(np.sqrt(mean_squared_error(y_test, y_pred))))\nprint(\"MAE Score: {:.2f}\".format(mean_absolute_error(y_test, y_pred)))\n\n\nR2 Score: -7452.15%\nMSE Score: 22149.23\nRMSE Score: 148.83\nRMSE Score: 148.83\nMAE Score: 113.29"
-  },
-  {
-    "objectID": "machine_learning_regression.html#mae",
-    "href": "machine_learning_regression.html#mae",
-    "title": "Regression",
-    "section": "MAE",
-    "text": "MAE\n\n\nCode\nscores = cross_val_score(estimator = regressor, X = X_train, y = y_train, cv = 10, scoring='neg_mean_absolute_error')\nprint(\"MAE Score: {:.2f}\".format(-scores.mean()))\nprint(\"Standard Deviation: {:.2f}\".format(scores.std()))\n\n\nMAE Score: 3.20\nStandard Deviation: 0.10"
-  },
-  {
-    "objectID": "machine_learning_regression.html#mse",
-    "href": "machine_learning_regression.html#mse",
-    "title": "Regression",
-    "section": "MSE",
-    "text": "MSE\n\n\nCode\nscores = cross_val_score(estimator = regressor, X = X_train, y = y_train, cv = 10, scoring='neg_mean_squared_error')\nprint(\"MSE Score: {:.2f}\".format(-scores.mean()))\nprint(\"Standard Deviation: {:.2f}\".format(scores.std()))\n\n\nMSE Score: 17.92\nStandard Deviation: 1.50"
-  },
-  {
-    "objectID": "machine_learning_regression.html#r2-score",
-    "href": "machine_learning_regression.html#r2-score",
-    "title": "Regression",
-    "section": "R2 Score",
-    "text": "R2 Score\n\n\nCode\nscores = cross_val_score(estimator = regressor, X = X_train, y = y_train, cv = 10, scoring='r2')\nprint(\"R-Squared Score: {:.2f}%\".format(scores.mean()*100))\nprint(\"Standard Deviation: {:.2f}%\".format(scores.std()*100))\n\n\nR-Squared Score: 93.81%\nStandard Deviation: 0.53%"
-  },
-  {
-    "objectID": "machine_learning_regression.html#applying-results",
-    "href": "machine_learning_regression.html#applying-results",
-    "title": "Regression",
-    "section": "Applying Results",
-    "text": "Applying Results\n\nOption 1\n\n\nCode\nbest_svr = grid_search.best_estimator_\nbest_svr.fit(X_train,y_train)\n\ny_pred = best_svr.predict(X_test)\n\ny_pred[:5]\n\n\narray([433.85, 457.77, 461.75, 448.75, 457.67])\n\n\n\n\nOption 2\n\n\nCode\nregressor = SVR(kernel = 'rbf', C = 1, gamma = 0.4)\nregressor.fit(X_train, y_train)\n\ny_pred = regressor.predict(X_test)\n\ny_pred[:5]\n\n\narray([433.85, 457.77, 461.75, 448.75, 457.67])"
-  },
-  {
-    "objectID": "machine_learning_regression.html#applying-results-option-1",
-    "href": "machine_learning_regression.html#applying-results-option-1",
-    "title": "Regression",
-    "section": "Applying Results: Option 1",
-    "text": "Applying Results: Option 1\n\n\nCode\nbest_svr = grid_search.best_estimator_\nbest_svr.fit(X_train,y_train)\n\ny_pred = best_svr.predict(X_test)\n\ny_pred[:5]\n\n\narray([433.85, 457.77, 461.75, 448.75, 457.67])"
-  },
-  {
-    "objectID": "machine_learning_regression.html#applying-results-option-2",
-    "href": "machine_learning_regression.html#applying-results-option-2",
-    "title": "Regression",
-    "section": "Applying Results: Option 2",
-    "text": "Applying Results: Option 2\n\n\nCode\nregressor = SVR(kernel = 'rbf', C = 1, gamma = 0.4)\nregressor.fit(X_train, y_train)\n\ny_pred = regressor.predict(X_test)\n\ny_pred[:5]\n\n\narray([433.85, 457.77, 461.75, 448.75, 457.67])"
-  },
-  {
-    "objectID": "machine_learning_classification.html",
-    "href": "machine_learning_classification.html",
-    "title": "Classification",
-    "section": "",
-    "text": "Code\nimport pandas as pd\nimport numpy as np"
-  },
-  {
-    "objectID": "machine_learning_classification.html#option-1-iloc",
-    "href": "machine_learning_classification.html#option-1-iloc",
-    "title": "Classification",
-    "section": "Option 1: iloc",
-    "text": "Option 1: iloc\n\n\nCode\nX = dataset.iloc[ : , : -1].values\ny = dataset.iloc[ : , -1].values\n\n\n\n\nCode\nfrom sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)"
-  },
-  {
-    "objectID": "machine_learning_classification.html#option-2-not-iloc",
-    "href": "machine_learning_classification.html#option-2-not-iloc",
-    "title": "Classification",
-    "section": "Option 2: Not iloc",
-    "text": "Option 2: Not iloc\n\n\nCode\nX_train, X_test, y_train, y_test = train_test_split(\n  dataset.drop(columns = 'Class'),\n  dataset.Class,\n  test_size = 0.25,\n  random_state = 0,\n  stratify = dataset.Class\n)"
-  },
-  {
-    "objectID": "machine_learning_classification.html#predict",
-    "href": "machine_learning_classification.html#predict",
-    "title": "Classification",
-    "section": "Predict",
-    "text": "Predict\n\n\nCode\nX_const = sm.add_constant(X_test)\ny_pred = model.predict(X_const)\n\n\ny_pred[:5]\n\n# convert predicted values to binary labels (threshold=0.5)\ny_pred_bin = np.where(y_pred>0.5, 1, 0)\ny_pred_bin[:5]\n\n\narray([0, 1, 0, 0, 1])"
-  },
-  {
-    "objectID": "machine_learning_classification.html#metrics",
-    "href": "machine_learning_classification.html#metrics",
-    "title": "Classification",
-    "section": "Metrics",
-    "text": "Metrics\n\n\nCode\nfrom sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score, roc_auc_score, classification_report\n\n\n\n\nCode\naccuracy = accuracy_score(y_test, y_pred_bin)\nrecall = recall_score(y_test, y_pred_bin) # use average=\"macro\" for multiclass problem \nprecision = precision_score(y_test, y_pred_bin) # use average=\"macro\" for multiclass problem \nf1 = f1_score(y_test, y_pred_bin) # use average=\"macro\" for multiclass problem\n\nprint('Accuracy Score: {:.2f}%'.format(accuracy*100))\nprint('Recall Score: {:.2f}%'.format(recall*100))\nprint('Precision Score: {:.2f}%'.format(precision*100))\nprint('F1 Score: {:.2f}%'.format(f1*100))\n\n\nAccuracy Score: 95.32%\nRecall Score: 91.67%\nPrecision Score: 94.83%\nF1 Score: 93.22%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred_bin))\n\n\n              precision    recall  f1-score   support\n\n           0       0.96      0.97      0.96       111\n           1       0.95      0.92      0.93        60\n\n    accuracy                           0.95       171\n   macro avg       0.95      0.94      0.95       171\nweighted avg       0.95      0.95      0.95       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#prediction",
-    "href": "machine_learning_classification.html#prediction",
-    "title": "Classification",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\n# get the predicted probabilities from the model\ny_pred = result.predict(X)\n\n# convert the predicted probabilities to class labels using argmax\ny_pred = y_pred.argmax(axis=1)\n\ny_pred[:5]\n\n\narray([0, 0, 0, 0, 0])"
-  },
-  {
-    "objectID": "machine_learning_classification.html#metrics-1",
-    "href": "machine_learning_classification.html#metrics-1",
-    "title": "Classification",
-    "section": "Metrics",
-    "text": "Metrics\n\n\nCode\naccuracy = accuracy_score(y, y_pred)\nrecall = recall_score(y, y_pred, average=\"macro\") # use average=\"macro\" for multiclass problem \nprecision = precision_score(y, y_pred, average=\"macro\") # use average=\"macro\" for multiclass problem \nf1 = f1_score(y, y_pred, average=\"macro\") # use average=\"macro\" for multiclass problem\n\nprint('Accuracy Score: {:.2f}%'.format(accuracy*100))\nprint('Recall Score: {:.2f}%'.format(recall*100))\nprint('Precision Score: {:.2f}%'.format(precision*100))\nprint('F1 Score: {:.2f}%'.format(f1*100))\n\n\nAccuracy Score: 98.67%\nRecall Score: 98.67%\nPrecision Score: 98.67%\nF1 Score: 98.67%\n\n\n\n\nCode\nprint(classification_report(y, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       1.00      1.00      1.00        50\n           1       0.98      0.98      0.98        50\n           2       0.98      0.98      0.98        50\n\n    accuracy                           0.99       150\n   macro avg       0.99      0.99      0.99       150\nweighted avg       0.99      0.99      0.99       150\n\n\n\nThis is to just prepare for the Ski-learn packages\n\n\nCode\ndataset = pd.read_csv('data/data_classification.csv')\nX_train, X_test, y_train, y_test = train_test_split(\n  dataset.drop(columns = 'Class'),\n  dataset.Class,\n  test_size = 0.25,\n  random_state = 0,\n  stratify = dataset.Class\n)\n\nsc = StandardScaler()\nX_train = sc.fit_transform(X_train)\nX_test = sc.transform(X_test)\n\n# map Class values to 0 and 1\ny_train = y_train.map({2:0, 4:1})\ny_test = y_test.map({2:0, 4:1})"
-  },
-  {
-    "objectID": "machine_learning_classification.html#prediction-1",
-    "href": "machine_learning_classification.html#prediction-1",
-    "title": "Classification",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = classifier.predict(X_test)\ny_pred[:5]\n\n\narray([0, 1, 0, 0, 1])\n\n\n\nModel Performance\n\n\nCode\ny_pred = classifier.predict(X_test)\ncm = confusion_matrix(y_test, y_pred)\nprint(cm)\n\n\n[[108   3]\n [  5  55]]\n\n\n\n\nCode\nprint(\"Accuracy Score: {:.2f}%\".format(accuracy_score(y_test, y_pred)*100))\nprint(\"Recall Score: {:.2f}%\".format(recall_score(y_test, y_pred)*100))\nprint(\"Precision Score: {:.2f}%\".format(precision_score(y_test, y_pred)*100))\nprint(\"F1 Score: {:.2f}%\".format(f1_score(y_test, y_pred)*100))\nprint(\"ROC AUC Score: {:.2f}%\".format(roc_auc_score(y_test, y_pred)*100))\n\n\nAccuracy Score: 95.32%\nRecall Score: 91.67%\nPrecision Score: 94.83%\nF1 Score: 93.22%\nROC AUC Score: 94.48%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       0.96      0.97      0.96       111\n           1       0.95      0.92      0.93        60\n\n    accuracy                           0.95       171\n   macro avg       0.95      0.94      0.95       171\nweighted avg       0.95      0.95      0.95       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#prediction-2",
-    "href": "machine_learning_classification.html#prediction-2",
-    "title": "Classification",
-    "section": "Prediction",
-    "text": "Prediction\n\n\nCode\ny_pred = classifier.predict(X_test)\nnp.set_printoptions(precision=2)\n\n\n\nModel Performance\n\n\nCode\ny_pred = classifier.predict(X_test)\ncm = confusion_matrix(y_test, y_pred)\nprint(cm)\n\n\n[[107   4]\n [  3  57]]\n\n\n\n\nCode\nprint(\"Accuracy Score: {:.2f}%\".format(accuracy_score(y_test, y_pred)*100))\nprint(\"Recall Score: {:.2f}%\".format(recall_score(y_test, y_pred)*100))\nprint(\"Precision Score: {:.2f}%\".format(precision_score(y_test, y_pred)*100))\nprint(\"F1 Score: {:.2f}%\".format(f1_score(y_test, y_pred)*100))\nprint(\"ROC AUC Score: {:.2f}%\".format(roc_auc_score(y_test, y_pred)*100))\n\n\nAccuracy Score: 95.91%\nRecall Score: 95.00%\nPrecision Score: 93.44%\nF1 Score: 94.21%\nROC AUC Score: 95.70%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       0.97      0.96      0.97       111\n           1       0.93      0.95      0.94        60\n\n    accuracy                           0.96       171\n   macro avg       0.95      0.96      0.96       171\nweighted avg       0.96      0.96      0.96       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#linear-kernal",
-    "href": "machine_learning_classification.html#linear-kernal",
-    "title": "Classification",
-    "section": "Linear Kernal",
-    "text": "Linear Kernal\n\n\nCode\nfrom sklearn.svm import SVC\nclassifier = SVC(kernel = 'linear')\nclassifier.fit(X_train, y_train)\n\n\nSVC(kernel='linear')In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVCSVC(kernel='linear')\n\n\n\nPrediction\n\n\nCode\ny_pred = classifier.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\ny_pred = classifier.predict(X_test)\ncm = confusion_matrix(y_test, y_pred)\nprint(cm)\n\n\n[[107   4]\n [  5  55]]\n\n\n\n\nCode\nprint(\"Accuracy Score: {:.2f}%\".format(accuracy_score(y_test, y_pred)*100))\nprint(\"Recall Score: {:.2f}%\".format(recall_score(y_test, y_pred)*100))\nprint(\"Precision Score: {:.2f}%\".format(precision_score(y_test, y_pred)*100))\nprint(\"F1 Score: {:.2f}%\".format(f1_score(y_test, y_pred)*100))\nprint(\"ROC AUC Score: {:.2f}%\".format(roc_auc_score(y_test, y_pred)*100))\n\n\nAccuracy Score: 94.74%\nRecall Score: 91.67%\nPrecision Score: 93.22%\nF1 Score: 92.44%\nROC AUC Score: 94.03%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       0.96      0.96      0.96       111\n           1       0.93      0.92      0.92        60\n\n    accuracy                           0.95       171\n   macro avg       0.94      0.94      0.94       171\nweighted avg       0.95      0.95      0.95       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#polynomial-kernal",
-    "href": "machine_learning_classification.html#polynomial-kernal",
-    "title": "Classification",
-    "section": "Polynomial Kernal",
-    "text": "Polynomial Kernal\n\n\nCode\nfrom sklearn.svm import SVC\nclassifier = SVC(kernel = 'poly')\nclassifier.fit(X_train, y_train)\n\n\nSVC(kernel='poly')In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVCSVC(kernel='poly')\n\n\n\nPrediction\n\n\nCode\ny_pred = classifier.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\ny_pred = classifier.predict(X_test)\ncm = confusion_matrix(y_test, y_pred)\nprint(cm)\n\n\n[[110   1]\n [  9  51]]\n\n\n\n\nCode\nprint(\"Accuracy Score: {:.2f}%\".format(accuracy_score(y_test, y_pred)*100))\nprint(\"Recall Score: {:.2f}%\".format(recall_score(y_test, y_pred)*100))\nprint(\"Precision Score: {:.2f}%\".format(precision_score(y_test, y_pred)*100))\nprint(\"F1 Score: {:.2f}%\".format(f1_score(y_test, y_pred)*100))\nprint(\"ROC AUC Score: {:.2f}%\".format(roc_auc_score(y_test, y_pred)*100))\n\n\nAccuracy Score: 94.15%\nRecall Score: 85.00%\nPrecision Score: 98.08%\nF1 Score: 91.07%\nROC AUC Score: 92.05%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       0.92      0.99      0.96       111\n           1       0.98      0.85      0.91        60\n\n    accuracy                           0.94       171\n   macro avg       0.95      0.92      0.93       171\nweighted avg       0.94      0.94      0.94       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#radial-basis-function-rbf-kernal",
-    "href": "machine_learning_classification.html#radial-basis-function-rbf-kernal",
-    "title": "Classification",
-    "section": "Radial Basis Function (RBF) Kernal",
-    "text": "Radial Basis Function (RBF) Kernal\n\n\nCode\nfrom sklearn.svm import SVC\nclassifier = SVC(kernel = 'rbf')\nclassifier.fit(X_train, y_train)\n\n\nSVC()In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVCSVC()\n\n\n\nPrediction\n\n\nCode\ny_pred = classifier.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\ny_pred = classifier.predict(X_test)\ncm = confusion_matrix(y_test, y_pred)\nprint(cm)\n\n\n[[107   4]\n [  3  57]]\n\n\n\n\nCode\nprint(\"Accuracy Score: {:.2f}%\".format(accuracy_score(y_test, y_pred)*100))\nprint(\"Recall Score: {:.2f}%\".format(recall_score(y_test, y_pred)*100))\nprint(\"Precision Score: {:.2f}%\".format(precision_score(y_test, y_pred)*100))\nprint(\"F1 Score: {:.2f}%\".format(f1_score(y_test, y_pred)*100))\nprint(\"ROC AUC Score: {:.2f}%\".format(roc_auc_score(y_test, y_pred)*100))\n\n\nAccuracy Score: 95.91%\nRecall Score: 95.00%\nPrecision Score: 93.44%\nF1 Score: 94.21%\nROC AUC Score: 95.70%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       0.97      0.96      0.97       111\n           1       0.93      0.95      0.94        60\n\n    accuracy                           0.96       171\n   macro avg       0.95      0.96      0.96       171\nweighted avg       0.96      0.96      0.96       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#sigmoid-kernal",
-    "href": "machine_learning_classification.html#sigmoid-kernal",
-    "title": "Classification",
-    "section": "Sigmoid Kernal",
-    "text": "Sigmoid Kernal\n\n\nCode\nfrom sklearn.svm import SVC\nclassifier = SVC(kernel = 'sigmoid')\nclassifier.fit(X_train, y_train)\n\n\nSVC(kernel='sigmoid')In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.SVCSVC(kernel='sigmoid')\n\n\n\nPrediction\n\n\nCode\ny_pred = classifier.predict(X_test)\n\n\n\n\nModel Performance\n\n\nCode\ny_pred = classifier.predict(X_test)\ncm = confusion_matrix(y_test, y_pred)\nprint(cm)\n\n\n[[107   4]\n [  6  54]]\n\n\n\n\nCode\nprint(\"Accuracy Score: {:.2f}%\".format(accuracy_score(y_test, y_pred)*100))\nprint(\"Recall Score: {:.2f}%\".format(recall_score(y_test, y_pred)*100))\nprint(\"Precision Score: {:.2f}%\".format(precision_score(y_test, y_pred)*100))\nprint(\"F1 Score: {:.2f}%\".format(f1_score(y_test, y_pred)*100))\nprint(\"ROC AUC Score: {:.2f}%\".format(roc_auc_score(y_test, y_pred)*100))\n\n\nAccuracy Score: 94.15%\nRecall Score: 90.00%\nPrecision Score: 93.10%\nF1 Score: 91.53%\nROC AUC Score: 93.20%\n\n\n\n\nCode\nprint(classification_report(y_test, y_pred))\n\n\n              precision    recall  f1-score   support\n\n           0       0.95      0.96      0.96       111\n           1       0.93      0.90      0.92        60\n\n    accuracy                           0.94       171\n   macro avg       0.94      0.93      0.94       171\nweighted avg       0.94      0.94      0.94       171"
-  },
-  {
-    "objectID": "machine_learning_classification.html#accuracy",
-    "href": "machine_learning_classification.html#accuracy",
-    "title": "Classification",
-    "section": "Accuracy",
-    "text": "Accuracy\n\n\nCode\nscores = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, scoring='accuracy')\nprint(\"Accuracy Score: {:.2f}%\".format(scores.mean()*100))\nprint(\"Standard Deviation: {:.2f}%\".format(scores.std()*100))\n\n\nAccuracy Score: 97.08%\nStandard Deviation: 2.34%"
-  },
-  {
-    "objectID": "machine_learning_classification.html#recall",
-    "href": "machine_learning_classification.html#recall",
-    "title": "Classification",
-    "section": "Recall",
-    "text": "Recall\n\n\nCode\nscores = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, scoring='recall')\nprint(\"Recall Score: {:.2f}%\".format(scores.mean()*100))\nprint(\"Standard Deviation: {:.2f}%\".format(scores.std()*100))\n\n\nRecall Score: 97.78%\nStandard Deviation: 3.69%"
-  },
-  {
-    "objectID": "machine_learning_classification.html#f1-score",
-    "href": "machine_learning_classification.html#f1-score",
-    "title": "Classification",
-    "section": "F1 Score",
-    "text": "F1 Score\n\n\nCode\nscores = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, scoring='f1')\nprint(\"F1 Score: {:.2f}%\".format(scores.mean()*100))\nprint(\"Standard Deviation: {:.2f}%\".format(scores.std()*100))\n\n\nF1 Score: 95.91%\nStandard Deviation: 3.28%"
-  },
-  {
-    "objectID": "machine_learning_classification.html#applying-results",
-    "href": "machine_learning_classification.html#applying-results",
-    "title": "Classification",
-    "section": "Applying Results",
-    "text": "Applying Results\n\nOption 1\n\n\nCode\nbest_svr = grid_search.best_estimator_\nbest_svr.fit(X_train,y_train)\n\ny_pred = best_svr.predict(X_test)\n\ny_pred[:5]\n\n\narray([0, 1, 0, 0, 1])\n\n\n\n\nOption 2\n\n\nCode\nclassifier = SVC(kernel = 'rbf', C = 1, gamma = 0.4)\nclassifier.fit(X_train, y_train)\n\ny_pred = classifier.predict(X_test)\n\ny_pred[:5]\n\n\narray([0, 1, 0, 0, 1])"
   }
 ]

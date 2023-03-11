@@ -1,45 +1,561 @@
 ---
 title: "Regression"
-format:
-  html:
-    theme:
-      light: Minty
-      dark: Darkly
-    fontsize: 16px
-    toc-title: Data Transformation
-    code-fold: show
-    code-tools: true
-    toc: TRUE
-website:
-  sidebar:
-    style: "docked"
-    search: true
-    contents:
-      - section: "Data Transformation"
-        contents:
-          - data_transformation.qmd
-      - section: "Machine Learning: Regression"
-        contents:
-          - machine_learning_regression.qmd
 ---
 
-## Quarto
+# Libraries
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+```{python}
 
-## Running Code
+import pandas as pd
+import numpy as np
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
 ```
 
-You can add options to executable code like this
+# Importing Data
 
-```{r}
-#| echo: false
-2 * 2
+The Objective is to predict Energy Output which is denoted as PE
+
+AT = Engine Temperature AP = Ambient Pressure RH = Relative Humidity PE = Energy Output
+
+```{python}
+
+# dataset = pd.read_csv('ENTER_THE_NAME_OF_YOUR_DATASET_HERE.csv')
+# https://archive.ics.uci.edu/ml/index.php
+dataset = pd.read_csv('data/data_regression.csv')
+dataset.head()
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Splitting Data
+
+## Option 1: iloc
+
+```{python}
+
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+
+```
+
+```{python}
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
+
+```
+
+## Option 2: Not iloc
+
+```{python}
+
+X_train, X_test, y_train, y_test = train_test_split(
+  dataset.drop(columns = 'PE'),
+  dataset.PE,
+  test_size = 0.25, 
+  random_state = 0)
+
+```
+
+# Linear Regression - Stats Model
+
+```{python}
+
+import statsmodels.api as sm
+
+```
+
+```{python}
+
+X_const = sm.add_constant(X_train) # adding a constant
+model = sm.OLS(y_train, X_const).fit()
+print(model.summary())
+
+```
+
+```{python}
+
+X_const = sm.add_constant(X_test)
+y_pred = model.predict(X_const)
+
+
+y_pred[:5]
+
+
+```
+
+# Metrics
+
+```{python}
+
+from sklearn import metrics
+import math
+
+```
+
+```{python}
+
+mse = metrics.mean_squared_error(y_test, y_pred)
+mae = metrics.mean_absolute_error(y_test, y_pred)
+rmse = math.sqrt(mse)
+
+print('MSE Score: {:.2f}'.format(mse))
+print('MAE Score: {:.2f}'.format(mae))
+print('RMSE Score: {:.2f}'.format(rmse))
+
+```
+
+# Linear Regression
+
+```{python}
+
+from sklearn.linear_model import LinearRegression
+
+
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+
+
+```
+
+## Prediction
+
+```{python}
+y_pred = regressor.predict(X_test)
+y_pred[:5]
+
+```
+
+## Model Performance
+
+```{python}
+
+dataset['PE'].describe()
+
+```
+
+```{python}
+
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+# Polynomial Regression
+
+```{python}
+
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+poly_reg = PolynomialFeatures(degree = 4)
+X_poly = poly_reg.fit_transform(X_train)
+regressor = LinearRegression()
+regressor.fit(X_poly, y_train)
+
+
+```
+
+## Predicition
+
+```{python}
+
+y_pred = regressor.predict(poly_reg.transform(X_test))
+np.set_printoptions(precision=2)
+
+
+```
+
+## Model Performance
+
+```{python}
+
+dataset['AT'].describe()
+
+```
+
+```{python}
+
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+# Random Forest
+
+```{python}
+
+from sklearn.ensemble import RandomForestRegressor
+regressor = RandomForestRegressor(n_estimators = 10, random_state = 0)
+regressor.fit(X_train, y_train)
+
+```
+
+## Prediction
+
+```{python}
+
+y_pred = regressor.predict(X_test)
+np.set_printoptions(precision=2)
+
+```
+
+## Model Performance
+
+```{python}
+
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+# Support Vector Regression
+
+## Feature Scaling
+
+```{python}
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+```
+
+## Inverse Transform
+
+This un transforms the data
+
+```{python}
+
+
+print(X_train[:1])
+
+X_train = sc.inverse_transform(X_train)
+X_test = sc.inverse_transform(X_test)
+
+print(X_train[:1])
+
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+```
+
+## Linear Kernal
+
+```{python}
+
+from sklearn.svm import SVR
+regressor = SVR(kernel = 'linear')
+regressor.fit(X_train, y_train)
+
+
+```
+
+### Prediction
+
+```{python}
+
+y_pred = regressor.predict(X_test)
+
+
+```
+
+### Model Performance
+
+```{python}
+
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+## Polynomial Kernal
+
+```{python}
+
+from sklearn.svm import SVR
+regressor = SVR(kernel = 'poly')
+regressor.fit(X_train, y_train)
+
+
+```
+
+### Prediction
+
+```{python}
+
+y_pred = regressor.predict(X_test)
+
+
+```
+
+### Model Performance
+
+```{python}
+
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+## Radial Basis Function (RBF) Kernal
+
+```{python}
+
+from sklearn.svm import SVR
+regressor = SVR(kernel = 'rbf')
+regressor.fit(X_train, y_train)
+
+
+```
+
+### Prediction
+
+```{python}
+
+y_pred = regressor.predict(X_test)
+
+
+```
+
+### Model Performance
+
+```{python}
+
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+## Sigmoid Kernal
+
+```{python}
+
+from sklearn.svm import SVR
+regressor = SVR(kernel = 'sigmoid')
+regressor.fit(X_train, y_train)
+
+
+```
+
+### Prediction
+
+```{python}
+
+y_pred = regressor.predict(X_test)
+
+
+```
+
+### Model Performance
+
+```{python}
+
+print("R2 Score: {:.2f}%".format(r2_score(y_test, y_pred)*100))
+print("MSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred)))
+print("RMSE Score: {:.2f}".format(mean_squared_error(y_test, y_pred, squared=False)))
+print("RMSE Score: {:.2f}".format(np.sqrt(mean_squared_error(y_test, y_pred))))
+print("MAE Score: {:.2f}".format(mean_absolute_error(y_test, y_pred)))
+
+```
+
+# Cross Validation
+
+```{python}
+
+from sklearn.model_selection import cross_val_score
+
+from sklearn.svm import SVR
+regressor = SVR(kernel = 'rbf')
+regressor.fit(X_train, y_train)
+
+```
+
+## MAE
+
+```{python}
+
+scores = cross_val_score(estimator = regressor, X = X_train, y = y_train, cv = 10, scoring='neg_mean_absolute_error')
+print("MAE Score: {:.2f}".format(-scores.mean()))
+print("Standard Deviation: {:.2f}".format(scores.std()))
+
+```
+
+## MSE
+
+```{python}
+
+scores = cross_val_score(estimator = regressor, X = X_train, y = y_train, cv = 10, scoring='neg_mean_squared_error')
+print("MSE Score: {:.2f}".format(-scores.mean()))
+print("Standard Deviation: {:.2f}".format(scores.std()))
+
+```
+
+## R2 Score
+
+```{python}
+
+scores = cross_val_score(estimator = regressor, X = X_train, y = y_train, cv = 10, scoring='r2')
+print("R-Squared Score: {:.2f}%".format(scores.mean()*100))
+print("Standard Deviation: {:.2f}%".format(scores.std()*100))
+
+```
+
+# Grid Search
+
+```{python}
+
+from sklearn.model_selection import GridSearchCV
+
+parameters = [{'C': [0.25, 0.5, 0.75, 1], 'kernel': ['linear']},
+              {'C': [0.25, 0.5, 0.75, 1], 'kernel': ['rbf'], 'gamma': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}]
+              
+grid_search = GridSearchCV(estimator = regressor,
+                           param_grid = parameters,
+                           scoring = 'r2',
+                           cv = 10,
+                           n_jobs = -1)
+                           
+grid_search.fit(X_train, y_train)
+best_score = grid_search.best_score_
+best_parameters = grid_search.best_params_
+
+print("Best Accuracy: {:.2f} %".format(best_score*100))
+print("Best Parameters:", best_parameters)
+
+```
+
+## Applying Results
+
+### Option 1
+
+```{python}
+
+best_svr = grid_search.best_estimator_
+best_svr.fit(X_train,y_train)
+
+y_pred = best_svr.predict(X_test)
+
+y_pred[:5]
+
+```
+
+### Option 2
+
+```{python}
+
+regressor = SVR(kernel = 'rbf', C = 1, gamma = 0.4)
+regressor.fit(X_train, y_train)
+
+y_pred = regressor.predict(X_test)
+
+y_pred[:5]
+
+```
+
+# Evaluating All Models
+
+```{python}
+
+# Define models
+models = {
+    "Linear Regression": LinearRegression(),
+    "Random Forest": RandomForestRegressor(),
+    "SVR": SVR()
+}
+
+# Define parameters for grid search
+params = {
+    "Linear Regression": {"fit_intercept": [True, False]},
+    "Random Forest": {"n_estimators": [10, 50, 100], "max_depth": [None, 5, 10]},
+    "SVR": {"kernel": ["linear", "rbf"], "C": [0.1, 1.0], "epsilon": [0.01, 0.1]}
+}
+
+# Compare models using cross-validation and grid search
+results = {} # Store results
+for name, model in models.items():
+    print(f"Comparing {name}...")
+    grid = GridSearchCV(model, params[name], cv=5) # Grid search with 5-fold cross-validation
+    grid.fit(X_train,y_train) # Fit on data
+    best_score = grid.best_score_ # Best mean score across folds
+    best_params = grid.best_params_ # Best parameters found by grid search 
+    results[name] = (best_score,best_params) # Save results
+
+# Print results    
+for name,(score,params) in results.items():
+    print(f"{name}:")
+    print(f"Best score: {score*100}%")
+    print(f"Best parameters: {params}")
+
+```
+
+```{python}
+
+# Define models
+models = {
+    "Linear Regression": LinearRegression(),
+    "Random Forest": RandomForestRegressor(),
+    "SVR": SVR()
+}
+
+# Define parameters for grid search
+params = {
+    "Linear Regression": {"fit_intercept": [True, False]},
+    "Random Forest": {"n_estimators": [10, 50, 100], "max_depth": [None, 5, 10]},
+    "SVR": {"kernel": ["linear", "rbf"], "C": [0.1, 1.0], "epsilon": [0.01, 0.1]}
+}
+
+# Compare models using cross-validation and grid search
+results = {} # Store results
+best_models = {} # Store best models with best parameters
+for name, model in models.items():
+    print(f"Comparing {name}...")
+    grid = GridSearchCV(model, params[name], cv=5) # Grid search with 5-fold cross-validation
+    grid.fit(X_train, y_train) # Fit on data
+    best_score = grid.best_score_ # Best mean score across folds
+    best_params = grid.best_params_ # Best parameters found by grid search 
+    results[name] = (best_score,best_params) # Save results 
+    best_models[name] = grid.best_estimator_ # Save best model with best parameters
+
+# Run cross validation on all best models and store in a dataframe    
+cv_results = pd.DataFrame(dtype='float64') # create an empty DataFrame to Store cross validation results 
+for name,model in best_models.items():
+    print(f"Running cross validation on {name}...")
+    scores = cross_val_score(model,X_test,y_test,cv=5) # Cross validate with 5-fold 
+    cv_results_staging = pd.DataFrame(scores, columns =['scores'])
+    cv_results_staging['model'] = name
+    #cv_results = cv_results_staging.append(cv_results)
+    cv_results = pd.concat([cv_results, cv_results_staging], ignore_index = True)
+
+
+
+```
+
+```{python}
+
+import plotly.express as px
+
+px.box(cv_results, x = "scores" , y = "model")
+
+```

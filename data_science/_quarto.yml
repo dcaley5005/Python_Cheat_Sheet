@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "Data Science Cheat Sheet"
@@ -13,6 +14,7 @@ website:
       - section: "Machine Learning"
         contents:
           - machine_learning_regression.qmd
+          - machine_learning_classification.qmd
           
   navbar:
     left:
@@ -22,14 +24,17 @@ website:
 
 format:
   html:
+    #page-layout: custom
     theme:
       light: Minty
       dark: Darkly
     fontsize: 16px
-    toc-title: Data Transformation
+    toc-title: Table of Contents
     code-fold: show
-    code-tools: true
+    code-tools: TRUE
     toc: TRUE
+    toc-depth: 3
+    smooth-scroll: TRUE
 
 editor: visual
 

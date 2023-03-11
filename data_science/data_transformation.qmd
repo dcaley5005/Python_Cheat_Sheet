@@ -20,10 +20,14 @@ import plotly.express as px
 
 ```
 
+
+
 ```{python}
+
 pd.read_csv?
 
 ```
+
 ## Reading CSV
 ```{python}
 
@@ -445,27 +449,6 @@ crisis[['GDP', 'HDI']] + crisis
 ```
 
 # Pivoting Data
-
-## Wide to Long
-```{python}
-d1 = {"Name": ["Pankaj", "Lisa", "David"], "ID": [1, 2, 3], "Role": ["CEO", "Editor", "Author"]}
-df_wide = pd.DataFrame(d1)
-df_wide
-```
-```{python}
-df_long = pd.melt(df_wide, id_vars=["ID"], value_vars=["Name", "Role"], var_name="Attribute", value_name="Value")
-df_long
-```
-
-```{python}
-year_list=list(df_wide.columns)
-df_long = pd.melt(df_wide, value_vars=year_list,value_name='Avg. Price ($)', ignore_index=False).reset_index()
-df_long
-
-```
-
-
-
 ## Long to Wide
 ```{python}
 # https://beta.bls.gov/dataQuery/find?fq=survey:[ap]&s=popularity:D
@@ -475,20 +458,804 @@ df_long
 ```
 
 
-
 ```{python}
 
 # unmelting using pivot()
 df_wide=pd.pivot(df_long, index=['Series ID','Item'], columns = 'Year Month',values = 'Avg. Price ($)') #Reshape from long to wide
 
-df_wide
+df_wide.reset_index()
+
+```
+
+## Wide to Long
+```{python}
+
+year_list=list(df_wide.columns)
+df_long = pd.melt(df_wide, value_vars=year_list,value_name='Avg. Price ($)', ignore_index=False).reset_index()
+df_long
+
+```
+
+
+# Aggregating Data
+## Calculating Percentage Share
+```{python}
+
+sales_yr_age = sales.groupby(['Year','Age_Group']).agg({'Profit':'sum','Revenue':'sum'})
+sales_yr_age['Revenue_Share'] = sales_yr_age['Revenue'] / sales_yr_age.groupby(['Year'])['Revenue'].sum()
+sales_yr_age['Profit_Share'] = sales_yr_age['Profit'] / sales_yr_age.groupby(['Year'])['Profit'].sum()
+sales_yr_age.reset_index()
+
+
+```
+
+
+
+
+
+## Aggregating Dates 
+```{python}
+
+df_freq = pd.DataFrame({
+    "Publish Date" : [
+        pd.Timestamp("2000-01-01"),
+        pd.Timestamp("2000-01-02"),
+        pd.Timestamp("2000-01-02"),
+        pd.Timestamp("2000-01-02"),
+        pd.Timestamp("2000-01-09"),
+        pd.Timestamp("2000-01-16")
+    ],
+    "ID": [0, 1, 2, 3, 4, 5],
+    "Price": [10, 20, 30, 40, 50, 60]
+    }
+)
+df_freq
+
 
 ```
 
 ```{python}
 
+df_freq.groupby('Publish Date')['Price'].mean()
+
+```
+
+## Filling Gaps
+```{python}
+
+df_freq.groupby(pd.Grouper(key = "Publish Date", freq= "1D"))['Price'].mean()
+
+```
+## Counting Unique Values
+```{python}
+
+sales.groupby('Age_Group').agg({'State':'nunique'})
+
+
+```
+## Aggregating on Multiple Values
+```{python}
+
+sales_country = sales.groupby('Country').agg({'Order_Quantity':np.sum,'Revenue':np.sum}).reset_index()
+sales_country
+```
+```{python}
+
+sales_country['aov'] = sales_country['Revenue']/ sales_country['Order_Quantity']
+sales_country
+
+```
+## Reset Index Alternative
+```{python}
+
+# USE as_index = False INSTEAD OF reset_index()
+sales.groupby('Country', as_index=False).agg(
+    Order_Total = ("Order_Quantity", np.sum),
+    Orders_Avg = ("Order_Quantity", np.mean),
+    Revenue_Total = ("Revenue", np.sum),
+    Revenue_avg = ("Revenue", np.mean),
+    Unique_States = ("State", pd.Series.nunique)
+)
+
+```
+## Weighted Average Calculation
+
+### Option 1 (Best)
+```{python}
+
+census_wavg = census_county.groupby('state_name').agg(
+  population = ('population',np.sum),
+  weighted_avg=('median_income', lambda x: np.average(x, weights=census_county.loc[x.index, 'population']))
+  )
+
+census_wavg.reset_index().head()
 
 
 ```
 
+
+
+### Option 2
+```{python}
+
+census_wavg = census_county.groupby('state_name').apply(lambda x: np.average(x['median_income'], weights=x['population'])).reset_index()
+census_wavg = census_wavg.rename(columns = {0:'median_income'})
+census_wavg.head()
+
+```
+### Option 3
+```{python}
+
+
+# define a custom function to calculate the weighted average
+def weighted_average(df, value_column, weight_column):
+    return (df[value_column] * df[weight_column]).sum() / df[weight_column].sum()
+
+# group by the 'group' column and apply the custom function to calculate the weighted average within each group
+census_wavg = census_county.groupby('state_name').apply(
+  weighted_average, value_column='median_income', weight_column='population'
+  ).reset_index()
+  
+census_wavg = census_wavg.rename(columns = {0:'medain_income'}).head()
+census_wavg
+
+```
+
+
+# Filtering
+## Single Filter
+```{python}
+
+sales = sales.set_index('Country')
+sales.loc['Canada'].head()
+
+
+```
+## Filtering Multiple Values
+```{python}
+
+sales = sales.reset_index()
+geo_list = ['Canada','Australia','United States']
+geo_filter = sales['Country'].isin(geo_list)
+sales[geo_filter].head()
+
+```
+## Retrieving Single and Multiple columns
+### Option 1 (Best)
+
+```{python}
+
+sales.loc[(sales['Month'] == 11) &
+          (sales['Year'] == 2013),
+          ['Age_Group','Revenue']
+].head()
+
+
+```
+### Option 2 (2nd Best)
+```{python}
+
+sales.query("State == 'Kentucky' and Year == 2014")[['Year','Age_Group','Revenue']]
+
+```
+## Filtering + Aggregating
+Get the mean revenue of the `Adults (35-64)` sales group
+```{python}
+
+sales.loc[sales['Age_Group']=='Adults (35-64)', 'Revenue'].mean()
+
+```
+
+
+How Many Records belong to Age Group `Youth (<25)` or `Adults 35-64`?
+```{python}
+
+sales.loc[(sales['Age_Group'] == 'Youth (<25)') | (sales['Age_Group'] == 'Adults (35-64)')].shape[0]
+
+```
+
+
+Get the mean revenue of the sales group `Adults (35-64)` in `United States`
+```{python}
+sales.loc[(sales['Age_Group'] == 'Adults (35-64)') & (sales['Country'] == 'United States'), 'Revenue'].mean()
+
+```
+
+# Modifying DataFrame
+```{python}
+
+langs = pd.Series(
+    ['French', 'German', 'Italian'],
+    index=['France', 'Germany', 'Italy'],
+    name='Language'
+)
+
+langs
+
+```
+
+
+```{python}
+
+country_stat['Language'] = langs
+country_stat
+
+```
+
+```{python}
+
+country_stat['Language'] = 'English'
+country_stat
+
+```
+# Renaming Columns
+```{python}
+country_stat.rename(
+    columns={
+        'HDI': 'Human Development Index',
+        'Anual Popcorn Consumption': 'APC'
+    }, index={
+        'United States': 'USA',
+        'United Kingdom': 'UK',
+        'Argentina': 'AR'
+    })
+
+```
+
+## Columns Upper Case
+```{python}
+
+country_stat.rename(index=str.upper)
+
+```
+
+```{python}
+
+country_stat.rename(index=str.lower)
+
+```
+
+## Apending or Unioning Values
+```{python}
+
+# create two sample DataFrames
+df1 = pd.DataFrame({'col1': [1, 2, 3], 'col2': [4, 5, 6]})
+df2 = pd.DataFrame({'col1': [7, 8, 9], 'col2': [10, 11, 12]})
+
+# concatenate the DataFrames vertically
+result = pd.concat([df1, df2])
+
+print(result)
+
+```
+# Cleaning Data
+## Identifying Null values
+```{python}
+
+pd.isnull(np.nan)
+pd.isnull(None)
+pd.isna(np.nan)
+pd.notnull(None)
+pd.isna(None)
+
+```
+```{python}
+
+pd.isnull(pd.DataFrame({
+    'Column A': [1, np.nan, 7],
+    'Column B': [np.nan, 2, 3],
+    'Column C': [np.nan, 2, np.nan]
+}))
+
+```
+## Aggregating with Nulls
+```{python}
+
+pd.Series([1, 2, np.nan]).count()
+pd.Series([1, 2, np.nan]).sum()
+pd.Series([2, 2, np.nan]).mean()
+```
+
+## Null Values in a Series
+```{python}
+
+s = pd.Series([1, 2, 3, np.nan, np.nan, 4])
+pd.notnull(s)
+
+```
+```{python}
+
+pd.isnull(s)
+
+```
+
+```{python}
+
+s.isnull()
+
+```
+## Removing Null Values
+```{python}
+
+s[s.notnull()]
+
+```
+## Removing Null Values
+```{python}
+
+s
+s.dropna()
+
+```
+
+
+## DataFrames and Nulls
+```{python}
+df_nulls = pd.DataFrame({
+    'Column A': [1, np.nan, 30, np.nan],
+    'Column B': [2, 8, 31, np.nan],
+    'Column C': [np.nan, 9, 32, 100],
+    'Column D': [5, 8, 34, 110],
+})
+df_nulls
+
+```
+
+## Aggregating Nulls w/ Data Frames
+```{python}
+
+df_nulls.isnull().sum()
+df_nulls.dropna()
+
+```
+
+## Drop Entire Columns
+The Only column that doesn't have any NA's is Column D
+```{python}
+
+df_nulls.dropna(axis=1)
+
+```
+
+
+In this case, any row or column that contains **at least** one null value will be dropped. Which can be, depending on the case, too extreme. You can control this behavior with the `how` parameter. Can be either `'any'` or `'all'`:
+```{python}
+
+df_nulls2 = pd.DataFrame({
+    'Column A': [1, np.nan, 30],
+    'Column B': [2, np.nan, 31],
+    'Column C': [np.nan, np.nan, 100]
+})
+df_nulls2
+
+```
+
+```{python}
+df_nulls2.dropna(how='all') # if all columns have NA then drop
+df_nulls2.dropna(how = 'any') # default behavior
+
+```
+
+```{python}
+
+df_nulls2.dropna(thresh=3) # if at least 3 values are NA
+df_nulls2.dropna(thresh=3, axis='columns')
+
+```
+
+# Filling Null Values On DataFrames
+```{python}
+
+df_nulls2.fillna(value = 0)
+
+```
+
+
+
+```{python}
+
+df_nulls2.fillna(value = 0)
+
+```
+
+
+
+```{python}
+
+df_nulls2.fillna(value = df_nulls2['Column A'].mean())
+
+```
+
+
+
+```{python}
+
+df_nulls2.fillna({'Column A': 0, 'Column B': 99, 'Column C': df_nulls['Column C'].mean()})
+
+```
+
+## Forwards filling 
+```{python}
+
+df_nulls2.fillna(method='ffill', axis=0)
+
+```
+
+
+##Backward filling
+```{python}
+
+df_nulls2.fillna(method='bfill', axis=0)
+
+```
+
+
+
+```{python}
+
+rents = pd.read_csv('data/zillow_data.csv')
+rents.describe()
+
+```
+
+
+
+## Missing Data in Graphs
+We can see in the above line that there is missing data. Let's use interpolate
+```{python}
+
+import plotly.express as px
+px.line(rents, x = 'rent_date', y = 'avg_rents', color='RegionName')
+
+### We can see in the above line that there is missing data. Let's use interpolate
+```
+
+
+
+
+```{python}
+
+rents[rents['RegionName'] == 'New York County'] = rents[rents['RegionName'] == 'New York County'].interpolate(method = 'linear')
+px.line(rents, x = 'rent_date', y = 'avg_rents', color='RegionName')
+
+```
+
+
+# Cleaning All Values
+The previous `DataFrame` doesn't have any "missing value", but clearly has invalid data. `290` doesn't seem like a valid age, and `D` and `?` don't correspond with any known sex category. How can you clean these not-missing, but clearly invalid values then?
+
+```{python}
+
+gender = pd.DataFrame({
+    'Sex': ['M', 'F', 'F', 'D', '?'],
+    'Age': [29, 30, 24, 290, 25],
+})
+gender
+
+
+```
+
+## Replace
+```{python}
+
+gender['Sex'].replace('D','F')
+
+```
+
+```{python}
+
+gender['Sex'].replace({'D': 'F', 'N': 'M'})
+
+```
+
+
+If you have many columns to replace, you could apply it at “DataFrame level”:
+```{python}
+
+
+gender.replace({
+    'Sex': {'D': 'F','N': 'M'},
+    'Age': { 290: 29}
+})
+
+```
+
+# Duplicates
+ The sales dataset contains information about daily store purchases. What is the correct way to return unique entries for each product?
+```{python}
+
+sales_datacamp = pd.DataFrame(data={'date':['2018-01-15','2018-01-15','2018-01-20','2018-01-16','2018-01-16','2018-01-17'],
+                           'product_line':['Health and beauty', 'Electronic accessories', 'Electronic accessories', 'Home and lifestyle', 'Sports', 'Food and beverages'],
+                           'product': ['Shampoo', 'Headphones', 'Headphones', 'Lamp', 'Yoga mat', 'Milk'],
+                           'unit_price': [6.99,25.38,32.00,46.33,39.99,5.99],
+                           'quantity': [7,5,2,3,5,8]
+                           })
+sales_datacamp
+
+```
+The duplicate is dropped
+```{python}
+
+sales_datacamp.drop_duplicates(subset='product')
+
+```
+```{python}
+
+ambassadors = pd.Series([
+    'France',
+    'United Kingdom',
+    'United Kingdom',
+    'Italy',
+    'Germany',
+    'Germany',
+    'Germany',
+], index=[
+    'Gérard Araud',
+    'Kim Darroch',
+    'Peter Westmacott',
+    'Armando Varricchio',
+    'Peter Wittig',
+    'Peter Ammon',
+    'Klaus Scharioth '
+])
+
+ambassadors
+
+```
+
+
+
+```{python}
+
+ambassadors.duplicated()
+
+```
+
+In this case `duplicated` didn't consider `'Kim Darroch'`, the first instance of the United Kingdom or `'Peter Wittig'` as duplicates. That's because, by default, it'll consider the first occurrence of the value as not-duplicate. You can change this behavior with the `keep` parameter:
+
+```{python}
+
+ambassadors.duplicated(keep='last')
+
+```
+
+In this case, the result is "flipped", `'Kim Darroch'` and `'Peter Wittig'` (the first ambassadors of their countries) are considered duplicates, but `'Peter Westmacott'` and `'Klaus Scharioth'` are not duplicates. You can also choose to mark all of them as duplicates with `keep=False`:
+```{python}
+
+ambassadors.duplicated(keep=False)
+
+```
+
+
+```{python}
+
+
+ambassadors.duplicated(keep=False)
+
+```
+
+A similar method is `drop_duplicates`, which just excludes the duplicated values and also accepts the `keep` parameter:
+```{python}
+
+ambassadors.drop_duplicates(keep='last')
+
+
+```
+
+
+```{python}
+
+ambassadors.drop_duplicates(keep=False)
+
+```
+
+
+# Duplicates in DataFrames
+Conceptually speaking, duplicates in a DataFrame happen at "row" level. Two rows with exactly the same values are considered to be duplicates:
+
+```{python}
+
+players = pd.DataFrame({
+    'Name': [
+        'Kobe Bryant',
+        'LeBron James',
+        'Kobe Bryant',
+        'Carmelo Anthony',
+        'Kobe Bryant',
+    ],
+    'Pos': [
+        'SG',
+        'SF',
+        'SG',
+        'SF',
+        'SF'
+    ]
+})
+
+players
+
+
+```
+
+Highlights only 1 record to remove
+```{python}
+
+
+players.duplicated()
+
+
+
+```
+Highlights all records to remove
+```{python}
+
+players.duplicated(subset=['Name'])
+
+```
+
+
+```{python}
+
+players.duplicated(subset=['Name'], keep='last')
+
+```
+
+
+```{python}
+
+players.drop_duplicates()
+
+```
+
+
+```{python}
+
+players.drop_duplicates(subset=['Name'])
+
+```
+
+
+```{python}
+
+players.drop_duplicates(subset=['Name'], keep='last')
+
+```
+
+# Changing Datatypes
+```{python}
+
+sales['Year_Char'] = sales['Year'].astype(str)
+sales[['Year','Year_Char']].dtypes
+
+```
+
+
+Encode `Product` as a `category` type. The columns of data frame `df` now have the following types:
+```{python}
+
+sales[['Product']].dtypes
+
+sales['Product'] = sales.Product.astype('category')
+sales[['Product']].dtypes
+
+```
+
+## Integers Downcasting
+
+This can help reduce the data size
+
+- int8 can store integers form -128 to 127
+- int16 can store integers from -32768 to 32767
+- int64 can store integers from -9223372036854775808 to 9223372036854775807
+
+```{python}
+
+sales.info()
+
+```
+
+
+```{python}
+
+int8_dt = ['Day','Month','Year','Customer_Age','Order_Quantity','Unit_Price','Profit','Cost']
+sales[int8_dt] = sales[int8_dt].astype('int8')
+sales.info()
+
+```
+
+## Automatically Convert Dtypes
+```{python}
+
+
+sales.convert_dtypes().info()
+
+```
+
+## Select Int8 Datatypes
+```{python}
+
+sales.select_dtypes(include='int8').columns
+
+```
+
+
+
+#Joining Data
+```{python}
+
+census_state = census_county.groupby('state_name').agg({'population':np.sum}).reset_index()
+census_state = pd.merge(census_wavg,
+                        census_state,
+                           how="left",
+                           left_on = ["state_name"],
+                           right_on = ["state_name"])
+census_state.head()
+
+```
+
+
+# Case When np.Where
+##
+```{python}
+
+census_state["is_arizona"] = np.where(census_state["state_name"] == 'Arizona', True, False).copy()
+census_state
+
+```
+
+## Using A List
+```{python}
+
+geo_list =  ['Arizona','Nevada','New Mexico','Utah','Texas','Colorado']
+census_state["sun_belt"] = np.where(census_state["state_name"].isin(geo_list), True, False).copy()
+census_state
+
+```
+## Multiple Condition
+```{python}
+
+census_state["sun_belt"] = np.where((census_state["state_name"] == 'Arizona') |
+                                    (census_state["state_name"] == 'Nevada') |
+                                    (census_state["state_name"] == 'New Mexico'), True, False).copy()
+census_state
+
+
+```
+
+# Creating A Progress Bar
+This Only works for Loops
+```{python}
+
+from tqdm import tqdm
+import time
+
+
+```
+
+
+
+```{python}
+
+for i in tqdm(range(10)):
+    time.sleep(1)
+
+
+```
+
+
+```{python}
+
+from tqdm.notebook import tqdm
+
+```
+
+
+```{python}
+
+
+for i in tqdm(range(10)):
+    time.sleep(1)
+
+
+```
 
