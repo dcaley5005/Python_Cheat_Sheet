@@ -8,7 +8,7 @@ website:
     style: "docked"
     search: true
     contents:
-      - section: "Data Transformation"
+      - section: "Data Science"
         contents:
           - data_transformation.qmd
       - section: "Machine Learning"
