@@ -412,8 +412,10 @@ sales['Calculated_Cost'].head()
 ## Lag Function
 ```{python}
 
-df_freq_daily['PriceGrowth'] = df_freq_daily.Price / df_freq_daily.Price.shift(1) - 1
-df_freq_daily
+sales_by_day = sales.groupby('Date')['Calculated_Cost'].sum().reset_index()
+
+sales_by_day['CostGrowth'] = sales_by_day.Calculated_Cost / sales_by_day.Calculated_Cost.shift(1) - 1
+sales_by_day
 
 ```
 
@@ -1265,7 +1267,7 @@ import time
 
 ```{python}
 
-for i in tqdm(range(10)):
+for i in tqdm(range(5)):
     time.sleep(1)
 
 
@@ -1282,7 +1284,7 @@ from tqdm.notebook import tqdm
 ```{python}
 
 
-for i in tqdm(range(10)):
+for i in tqdm(range(5)):
     time.sleep(1)
 
 
