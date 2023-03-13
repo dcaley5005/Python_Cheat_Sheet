@@ -36,7 +36,8 @@ sales = pd.read_csv(
     parse_dates=['Date']
 )
 
-sales.head()
+sales = sales.sort_values(by=['Date'], ascending = True)
+
 
 ```
 
@@ -408,6 +409,15 @@ sales['Calculated_Cost'].head()
 
 ```
 
+## Lag Function
+```{python}
+
+df_freq_daily['PriceGrowth'] = df_freq_daily.Price / df_freq_daily.Price.shift(1) - 1
+df_freq_daily
+
+```
+
+
 
 ## Modifying All
 ```{python}
@@ -523,7 +533,8 @@ df_freq.groupby('Publish Date')['Price'].mean()
 ## Filling Gaps
 ```{python}
 
-df_freq.groupby(pd.Grouper(key = "Publish Date", freq= "1D"))['Price'].mean()
+df_freq_daily = df_freq.groupby(pd.Grouper(key = "Publish Date", freq= "1D"))['Price'].mean().reset_index()
+df_freq_daily
 
 ```
 ## Counting Unique Values
@@ -554,6 +565,7 @@ sales.groupby('Country', as_index=False).agg(
     Orders_Avg = ("Order_Quantity", np.mean),
     Revenue_Total = ("Revenue", np.sum),
     Revenue_avg = ("Revenue", np.mean),
+    States = ("State", np.count_nonzero),
     Unique_States = ("State", pd.Series.nunique)
 )
 
@@ -1175,6 +1187,23 @@ sales.convert_dtypes().info()
 ```{python}
 
 sales.select_dtypes(include='int8').columns
+
+```
+
+## Ordinal Sorting
+```{python}
+
+
+# define the categories and their order
+cat_type = pd.CategoricalDtype(categories=['United States', 'Canada', 'United Kingdom','Germany',  'Australia', 'France' ], ordered=True)
+
+# change the datatype of the column to categorical
+sales["Country"] = sales["Country"].astype(cat_type)
+
+# check the datatype of the column again
+sales["Country"].dtype
+
+sales.groupby('Country')['Revenue_per_Age'].sum()
 
 ```
 
