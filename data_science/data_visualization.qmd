@@ -2,9 +2,65 @@
 title: "Data Visualization"
 ---
 
-
+# Packages
+## Visualization
 ```{python}
+
+import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+```
+
+
+## Transformation
+```{python}
+
+import pandas as pd
+import numpy as np
+
+```
+
+
+
+# Data
+```{python echo=False}
+
+sales = pd.read_csv(
+    'data/sales_data.csv',
+    parse_dates=['Date']
+)
+
+sales = sales.sort_values(by=['Date'], ascending = True)
+
+# Group the data by state and calculate the sum of the order quantity for each state
+sales_stacked_ratio = sales.groupby(['State','Age_Group'])['Order_Quantity'].sum().reset_index()
+
+# Divide the Order Quantity by the state total to get the percentage of the order quantity for each age group in each state
+sales_stacked_ratio['Percent_Weight'] = sales_stacked_ratio['Order_Quantity']/ sales_stacked_ratio.groupby('State')['Order_Quantity'].transform('sum')
+
+```
+
+
+
+# Bar Chart
+## Stacked Bar Chart
+```{python}
+
+fig = px.bar(sales_stacked_ratio, x="State", y="Percent_Weight", color="Age_Group", 
+            title="Age Group Share by State")
 
 
 ```
+
+# Rotate Labels
+```{python}
+
+fig = px.bar(sales_stacked_ratio, x="State", y="Percent_Weight", color="Age_Group", 
+            title="Age Group Share by State")
+            
+fig.update_xaxes(tickangle=45)
+
+```
+
 

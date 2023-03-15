@@ -387,7 +387,7 @@ px.imshow(corr)
 
 ```
 
-# Column Wrangling & Feature Engineering
+# Feature Engineering
 ```{python}
 
 sales['Revenue_per_Age'] = sales['Revenue'] / sales['Customer_Age']
@@ -415,7 +415,48 @@ sales['Calculated_Cost'].head()
 sales_by_day = sales.groupby('Date')['Calculated_Cost'].sum().reset_index()
 
 sales_by_day['CostGrowth'] = sales_by_day.Calculated_Cost / sales_by_day.Calculated_Cost.shift(1) - 1
-sales_by_day
+sales_by_day.head()
+
+```
+
+## Rolling Function
+```{python}
+
+
+# Calculate the rolling mean of column A with a window size of 2
+sales_by_day['rolling_mean'] = sales_by_day['Calculated_Cost'].rolling(window=3).mean()
+sales_by_day['rolling_total'] = sales_by_day['Calculated_Cost'].rolling(window=3).sum()
+sales_by_day.head()
+
+
+```
+
+## Window Function
+
+Percentage Share: Best
+```{python}
+
+# Group the data by state and calculate the sum of the order quantity for each state
+sales_stacked_ratio = sales.groupby(['State','Age_Group'])['Order_Quantity'].sum().reset_index()
+
+# Divide the Order Quantity by the state total to get the percentage of the order quantity for each age group in each state
+sales_stacked_ratio['Percent_Weight'] = sales_stacked_ratio['Order_Quantity']/ sales_stacked_ratio.groupby('State')['Order_Quantity'].transform('sum')
+
+sales_stacked_ratio
+
+```
+
+Percentage Share: Good
+```{python}
+
+# Group the data by state and calculate the sum of the order quantity for each state
+sales_stacked_ratio = sales.groupby(['State','Age_Group'])['Order_Quantity'].sum().reset_index()
+sales_totals = sales_stacked_ratio.groupby('State')['Order_Quantity'].sum()
+
+# Divide the Order Quantity by the state total to get the percentage of the order quantity for each age group in each state
+sales_stacked_ratio['Percent_Weight'] = sales_stacked_ratio['Order_Quantity'] / sales_stacked_ratio['State'].map(sales_totals)
+
+sales_stacked_ratio
 
 ```
 
