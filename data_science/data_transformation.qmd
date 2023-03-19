@@ -399,6 +399,19 @@ sales['Calculated_Cost'] *= 1.03
 sales['Calculated_Cost'].head()
 
 ```
+## Modifying Multiple Columns
+```{python}
+crisis = pd.Series([-1_000_000, -0.3], index=['GDP', 'HDI'])
+crisis
+
+```
+
+```{python}
+
+crisis[['GDP', 'HDI']] + crisis
+
+```
+
 ## Working with loc
 ```{python}
 
@@ -412,6 +425,26 @@ marvel_df
 sales.loc[sales['Country'] == 'France', 'Revenue'].head()
 
 ```
+## Working with iloc
+```{python}
+# Create a DataFrame
+df_loc = pd.DataFrame({'name': ['John', 'Mike', 'Sally', 'Jane'],
+                   'age': [25, 30, 35, 40],
+                   'gender': ['M', 'M', 'F', 'F']})
+
+# Select rows and columns using iloc
+df_loc.iloc[1:3, 0:2]
+
+
+```
+```{python}
+
+# Select rows and columns using loc
+df_loc.loc[df_loc['age'] > 30, ['name', 'gender']]
+
+```
+
+
 ```{python}
 
 sales.loc[sales['Country'] == 'France', 'Revenue'] *= 1.10
@@ -419,17 +452,7 @@ sales.loc[sales['Country'] == 'France', 'Revenue'].head()
 
 ```
 
-```{python}
-crisis = pd.Series([-1_000_000, -0.3], index=['GDP', 'HDI'])
-crisis
 
-```
-
-```{python}
-
-crisis[['GDP', 'HDI']] + crisis
-
-```
 
 # Pivoting Data
 ## Long to Wide
@@ -438,6 +461,7 @@ crisis[['GDP', 'HDI']] + crisis
 # This data came from bls
 df_long = pd.read_csv("data/file.csv")
 df_long
+
 ```
 
 
