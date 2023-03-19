@@ -740,5 +740,19 @@
     "title": "Data Transformation",
     "section": "Working with iloc",
     "text": "Working with iloc\n\n\nCode\n# Create a DataFrame\ndf_loc = pd.DataFrame({'name': ['John', 'Mike', 'Sally', 'Jane'],\n                   'age': [25, 30, 35, 40],\n                   'gender': ['M', 'M', 'F', 'F']})\n\n# Select rows and columns using iloc\ndf_loc.iloc[1:3, 0:2]\n\n\n\n\n\n\n  \n    \n      \n      name\n      age\n    \n  \n  \n    \n      1\n      Mike\n      30\n    \n    \n      2\n      Sally\n      35\n    \n  \n\n\n\n\n\n\nCode\n# Select rows and columns using loc\ndf_loc.loc[df_loc['age'] > 30, ['name', 'gender']]\n\n\n\n\n\n\n  \n    \n      \n      name\n      gender\n    \n  \n  \n    \n      2\n      Sally\n      F\n    \n    \n      3\n      Jane\n      F\n    \n  \n\n\n\n\n\n\nCode\nsales.loc[sales['Country'] == 'France', 'Revenue'] *= 1.10\nsales.loc[sales['Country'] == 'France', 'Revenue'].head()\n\n\n58729     5982.9\n58719     6848.6\n58721    10272.9\n58707     3227.4\n58727     3699.3\nName: Revenue, dtype: float64"
+  },
+  {
+    "objectID": "data_visualization.html#pearson",
+    "href": "data_visualization.html#pearson",
+    "title": "Data Visualization",
+    "section": "Pearson",
+    "text": "Pearson\n\n\nCode\npx.scatter(df, x = 'days', y='values_linear')\n\n\n\n                                                \n\n\n\n\nCode\npearson_correlation = df.corr()['days']['values_linear']\nspearman_correlation = df.corr(method='spearman')['days']['values_linear']\n\nprint(\"Pearson Correlation: {:.2f}%\".format(pearson_correlation*100))\nprint(\"Spearman Correlation: {:.2f}%\".format(spearman_correlation*100))\n\n\nPearson Correlation: 89.13%\nSpearman Correlation: 89.69%"
+  },
+  {
+    "objectID": "data_visualization.html#spearman",
+    "href": "data_visualization.html#spearman",
+    "title": "Data Visualization",
+    "section": "Spearman",
+    "text": "Spearman\n\n\nCode\n# fit polynomial regression model\nz = np.polyfit(x, df['values_linear'], 100)\nf = np.poly1d(z)\n\n# evaluate polynomial at each value of x\ndf['values_polynomial'] = np.polyval(f, x)\ndf['values_polynomial'] = df['values_polynomial'] * df['values_linear']\ndf['values_polynomial'] = df['values_polynomial']\n\n\n/Users/dancaley/Library/Python/3.9/lib/python/site-packages/numpy/lib/polynomial.py:666: RuntimeWarning:\n\noverflow encountered in multiply\n\n/Library/Python/3.9/site-packages/IPython/core/interactiveshell.py:3433: RankWarning:\n\nPolyfit may be poorly conditioned\n\n\n\n\n\nCode\npx.scatter(df, x = 'days', y='values_polynomial')\n\n\n\n                                                \n\n\n\n\nCode\npearson_correlation = df.corr()['days']['values_polynomial']\nspearman_correlation = df.corr(method='spearman')['days']['values_polynomial']\n\nprint(\"Pearson Correlation: {:.2f}%\".format(pearson_correlation*100))\nprint(\"Spearman Correlation: {:.2f}%\".format(spearman_correlation*100))\n\n\nPearson Correlation: 90.16%\nSpearman Correlation: 95.00%"
   }
 ]

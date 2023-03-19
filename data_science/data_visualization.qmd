@@ -83,11 +83,6 @@ fig.update_yaxes(tickformat=".0%")
 ```
 
 
-```{python}
-
-fig.update_yaxes(tickformat="0%")
-
-```
 
 
 # Histogram
@@ -109,9 +104,19 @@ px.histogram(sales, x = 'Unit_Cost', facet_col='Age_Group', facet_col_wrap=2)
 
 df = px.data.gapminder()
 fig = px.scatter(df, x="gdpPercap", y="lifeExp", color="continent", size="pop",
+           hover_name="country", size_max=60)
+           
+fig
+```
+
+# Log Update
+```{python}
+
+fig = px.scatter(df, x="gdpPercap", y="lifeExp", color="continent", size="pop",
            hover_name="country", log_x=True, size_max=60)
            
 fig
+
 ```
 
 
@@ -123,4 +128,65 @@ fig
 
 ```
 
+# Types of Correlations
+```{python}
+
+x = np.arange(100)
+delta = np.random.uniform(-10,10, size=(100,))
+df = pd.DataFrame()
+df['days'] = np.arange(100)
+df['values_linear'] = .4 * x +3 + delta
+
+```
+
+## Pearson
+```{python}
+
+px.scatter(df, x = 'days', y='values_linear')
+
+
+```
+
+
+```{python}
+
+pearson_correlation = df.corr()['days']['values_linear']
+spearman_correlation = df.corr(method='spearman')['days']['values_linear']
+
+print("Pearson Correlation: {:.2f}%".format(pearson_correlation*100))
+print("Spearman Correlation: {:.2f}%".format(spearman_correlation*100))
+
+```
+
+
+## Spearman
+```{python}
+
+# fit polynomial regression model
+z = np.polyfit(x, df['values_linear'], 100)
+f = np.poly1d(z)
+
+# evaluate polynomial at each value of x
+df['values_polynomial'] = np.polyval(f, x)
+df['values_polynomial'] = df['values_polynomial'] * df['values_linear']
+df['values_polynomial'] = df['values_polynomial']
+
+```
+
+```{python}
+
+px.scatter(df, x = 'days', y='values_polynomial')
+
+```
+
+
+```{python}
+
+pearson_correlation = df.corr()['days']['values_polynomial']
+spearman_correlation = df.corr(method='spearman')['days']['values_polynomial']
+
+print("Pearson Correlation: {:.2f}%".format(pearson_correlation*100))
+print("Spearman Correlation: {:.2f}%".format(spearman_correlation*100))
+
+```
 
