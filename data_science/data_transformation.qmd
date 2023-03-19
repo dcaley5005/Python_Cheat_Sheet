@@ -93,7 +93,7 @@ btc_price.head()
 
 ```
 
-# Creating a Pandas Dataframe
+# Dataframe Creation
 
 ```{python}
 
@@ -178,17 +178,6 @@ census_county["state_name"] = new[1]
 
 census_county.drop(columns=['NAME'], inplace=True)
 census_county.head()
-
-```
-
-# Modifying Data Time
-
-## Inspecting DataTypes
-
-```{python}
-
-btc_price.dtypes
-
 
 ```
 
@@ -374,7 +363,8 @@ sales['Calculated_Cost'].head()
 
 ## Window Function
 
-### Percentage Share: Best
+### Percentage Share 
+#### Best
 ```{python}
 
 # Group the data by state and calculate the sum of the order quantity for each state
@@ -387,7 +377,7 @@ sales_stacked_ratio
 
 ```
 
-### Percentage Share: Good
+#### Good
 ```{python}
 
 # Group the data by state and calculate the sum of the order quantity for each state
@@ -400,7 +390,6 @@ sales_stacked_ratio['Percent_Weight'] = sales_stacked_ratio['Order_Quantity'] / 
 sales_stacked_ratio
 
 ```
-
 
 
 ## Modifying All
@@ -520,7 +509,7 @@ sales.groupby('Country', as_index=False).agg(
 ```
 ## Weighted Average Calculation
 
-### Option 1 (Best)
+### Best
 ```{python}
 
 census_wavg = census_county.groupby('state_name').agg(
@@ -535,7 +524,7 @@ census_wavg.reset_index().head()
 
 
 
-### Option 2
+### Great
 ```{python}
 
 census_wavg = census_county.groupby('state_name').apply(lambda x: np.average(x['median_income'], weights=x['population'])).reset_index()
@@ -543,7 +532,7 @@ census_wavg = census_wavg.rename(columns = {0:'median_income'})
 census_wavg.head()
 
 ```
-### Option 3
+### Good
 ```{python}
 
 
@@ -581,7 +570,7 @@ sales[geo_filter].head()
 
 ```
 ## Retrieving Single and Multiple columns
-### Option 1 (Best)
+### Best
 
 ```{python}
 
@@ -592,7 +581,8 @@ sales.loc[(sales['Month'] == 11) &
 
 
 ```
-### Option 2 (2nd Best)
+
+### Good
 ```{python}
 
 sales.query("State == 'Kentucky' and Year == 2014")[['Year','Age_Group','Revenue']]
