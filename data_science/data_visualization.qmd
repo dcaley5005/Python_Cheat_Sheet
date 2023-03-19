@@ -33,6 +33,8 @@ sales = pd.read_csv(
 
 sales = sales.sort_values(by=['Date'], ascending = True)
 
+Quantity_total = sales.groupby(['State'])['Order_Quantity'].sum().reset_index()
+
 # Group the data by state and calculate the sum of the order quantity for each state
 sales_stacked_ratio = sales.groupby(['State','Age_Group'])['Order_Quantity'].sum().reset_index()
 
@@ -44,7 +46,17 @@ sales_stacked_ratio['Percent_Weight'] = sales_stacked_ratio['Order_Quantity']/ s
 
 
 # Bar Chart
-## Stacked Bar Chart
+```{python}
+
+fig = px.bar(Quantity_total, x="State", y="Order_Quantity", 
+            title="Age Group Share by State")
+
+fig
+
+```
+
+
+# Stacked Bar Chart
 ```{python}
 
 fig = px.bar(sales_stacked_ratio, x="State", y="Percent_Weight", color="Age_Group", 
@@ -70,5 +82,45 @@ fig.update_yaxes(tickformat=".0%")
 
 ```
 
+
+```{python}
+
+fig.update_yaxes(tickformat="0%")
+
+```
+
+
+# Histogram
+```{python}
+
+px.histogram(sales, x = 'Unit_Cost')
+
+```
+
+# Facet Wrap
+```{python}
+
+px.histogram(sales, x = 'Unit_Cost', facet_col='Age_Group', facet_col_wrap=2)
+
+```
+
+# Scatter
+```{python}
+
+df = px.data.gapminder()
+fig = px.scatter(df, x="gdpPercap", y="lifeExp", color="continent", size="pop",
+           hover_name="country", log_x=True, size_max=60)
+           
+fig
+```
+
+
+# Multiple Fig Updates
+```{python}
+
+fig.update_xaxes(showgrid=False, zeroline=False)
+fig
+
+```
 
 
