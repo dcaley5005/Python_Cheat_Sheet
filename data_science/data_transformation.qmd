@@ -76,8 +76,8 @@ marvel_df
 
 ```
 
-## Adding Column Names When Reading CSV
-
+## Adding Names
+Adding Names when ingesting and setting the index wheen reading in a csv
 ```{python}
 
 btc_price = pd.read_csv(
@@ -192,45 +192,6 @@ btc_price.dtypes
 
 ```
 
-## Updating String Using to Date Time
-
-```{python}
-
-btc_price = btc_price.reset_index()
-btc_price['Timestamp'] = pd.to_datetime(btc_price['Timestamp'])
-btc_price.dtypes
-
-```
-
-## Filtering Data Time
-
-```{python}
-
-btc_price.set_index('Timestamp', inplace=True)
-btc_price.loc['2017-09-29':'2017-10-05']
-
-```
-
-## Date Diff Calc
-
-```{python}
-
-import datetime
-
-year = datetime.date.today().year
-
-marvel_df['years_since'] = year - marvel_df['first_appearance']
-marvel_df
-
-```
-
-## Convert Date Time To Year or Month
-
-```{python}
-sales['Year'] = sales['Date'].dt.year
-sales['Month'] = sales['Date'].dt.month
-sales
-```
 
 
 # Summarizing Data
@@ -345,6 +306,7 @@ sales['Unit_Cost'].quantile([.2, .4, .6, .8, 1])
 sales['Age_Group'].value_counts()
 
 ```
+
 ```{python}
 
  sales['Age_Group'].value_counts(normalize=True)
@@ -409,31 +371,10 @@ sales['Calculated_Cost'].head()
 
 ```
 
-## Lag Function
-```{python}
-
-sales_by_day = sales.groupby('Date')['Calculated_Cost'].sum().reset_index()
-
-sales_by_day['CostGrowth'] = sales_by_day.Calculated_Cost / sales_by_day.Calculated_Cost.shift(1) - 1
-sales_by_day.head()
-
-```
-
-## Rolling Function
-```{python}
-
-
-# Calculate the rolling mean of column A with a window size of 2
-sales_by_day['rolling_mean'] = sales_by_day['Calculated_Cost'].rolling(window=3).mean()
-sales_by_day['rolling_total'] = sales_by_day['Calculated_Cost'].rolling(window=3).sum()
-sales_by_day.head()
-
-
-```
 
 ## Window Function
 
-Percentage Share: Best
+### Percentage Share: Best
 ```{python}
 
 # Group the data by state and calculate the sum of the order quantity for each state
@@ -446,7 +387,7 @@ sales_stacked_ratio
 
 ```
 
-Percentage Share: Good
+### Percentage Share: Good
 ```{python}
 
 # Group the data by state and calculate the sum of the order quantity for each state
@@ -544,42 +485,6 @@ sales_yr_age.reset_index()
 
 
 
-
-
-## Aggregating Dates 
-```{python}
-
-df_freq = pd.DataFrame({
-    "Publish Date" : [
-        pd.Timestamp("2000-01-01"),
-        pd.Timestamp("2000-01-02"),
-        pd.Timestamp("2000-01-02"),
-        pd.Timestamp("2000-01-02"),
-        pd.Timestamp("2000-01-09"),
-        pd.Timestamp("2000-01-16")
-    ],
-    "ID": [0, 1, 2, 3, 4, 5],
-    "Price": [10, 20, 30, 40, 50, 60]
-    }
-)
-df_freq
-
-
-```
-
-```{python}
-
-df_freq.groupby('Publish Date')['Price'].mean()
-
-```
-
-## Filling Gaps
-```{python}
-
-df_freq_daily = df_freq.groupby(pd.Grouper(key = "Publish Date", freq= "1D"))['Price'].mean().reset_index()
-df_freq_daily
-
-```
 ## Counting Unique Values
 ```{python}
 
@@ -1212,9 +1117,10 @@ sales.info()
 
 ```{python}
 
-int8_dt = ['Day','Month','Year','Customer_Age','Order_Quantity','Unit_Price','Profit','Cost']
+int8_dt = ['Day','Year','Customer_Age','Order_Quantity','Unit_Price','Profit','Cost']
 sales[int8_dt] = sales[int8_dt].astype('int8')
 sales.info()
+
 
 ```
 

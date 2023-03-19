@@ -11,6 +11,7 @@ website:
       - section: "Data Science"
         contents:
           - data_transformation.qmd
+          - data_timeseries.qmd
           - data_visualization.qmd
       - section: "Machine Learning"
         contents:

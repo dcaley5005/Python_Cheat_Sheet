@@ -1,0 +1,207 @@
+---
+title: "Data Time Series"
+---
+
+# Library
+```{python}
+
+import pandas as pd
+import numpy as np
+
+```
+
+
+# Loading Date Time
+## Setting Index
+```{python}
+
+btc_price = pd.read_csv(
+    'data/btc-market-price.csv',
+    header=None,
+    names=['Timestamp', 'Price'],
+    index_col=0, # this sets the column in this instance its the first column 1
+    # index_col='Timestamp',  # You can also add the column name
+    parse_dates=True
+)
+
+btc_price.head()
+
+
+```
+## Not Setting Index
+```{python}
+
+btc_price = pd.read_csv(
+    'data/btc-market-price.csv',
+    header=None,
+    names=['Timestamp', 'Price'],
+    parse_dates=True
+)
+
+btc_price.head()
+
+
+```
+## Sorting Dates
+```{python}
+
+sales = pd.read_csv(
+    'data/sales_data.csv',
+    parse_dates=['Date']
+)
+
+sales = sales.sort_values(by=['Date'], ascending = True)
+
+```
+
+
+
+# Datatype Update
+```{python}
+
+btc_price = btc_price.reset_index()
+btc_price['Timestamp'] = pd.to_datetime(btc_price['Timestamp'])
+btc_price.dtypes
+
+```
+
+
+# Filtering Dates
+## Option 1: Best
+```{python}
+
+start_date = '2017-09-29'
+end_date = '2017-10-05'
+
+btc_price.loc[(btc_price['Timestamp'] >= start_date) & (btc_price['Timestamp'] <= end_date)]
+
+```
+
+## Option 2: Good
+```{python}
+
+btc_price.set_index('Timestamp', inplace=True)
+btc_price.loc['2017-09-29':'2017-10-05']
+
+
+```
+
+```{python}
+btc_price = btc_price.reset_index()
+```
+
+
+
+
+# Date Diff Calc
+```{python}
+
+from datetime import datetime
+
+today = datetime.today().date()
+
+btc_price['years_since'] = (today - btc_price['Timestamp'].dt.date).astype('timedelta64[D]').astype(int)
+btc_price
+
+```
+
+
+
+# Convert Date Time To Year or Month
+```{python}
+
+sales['Year'] = sales['Date'].dt.year
+sales['Month'] = sales['Date'].dt.month
+sales
+
+```
+
+# Lag Function
+Finding the growth of for sales
+```{python}
+
+sales['Calculated_Cost'] = sales['Order_Quantity'] * sales['Unit_Cost']
+sales_by_day = sales.groupby('Date')['Calculated_Cost'].sum().reset_index()
+
+sales_by_day['CostGrowth'] = sales_by_day.Calculated_Cost / sales_by_day.Calculated_Cost.shift(1) - 1
+sales_by_day.head()
+
+```
+
+
+# Rolling Function
+```{python}
+
+# Calculate the rolling mean of column A with a window size of 2
+sales_by_day['rolling_mean'] = sales_by_day['Calculated_Cost'].rolling(window=3).mean()
+sales_by_day['rolling_total'] = sales_by_day['Calculated_Cost'].rolling(window=3).sum()
+sales_by_day.head()
+
+```
+
+# Window Function
+```{python}
+
+# Group the data by state and calculate the sum of the order quantity for each state
+sales_stacked_ratio = sales.groupby(['State','Age_Group'])['Order_Quantity'].sum().reset_index()
+
+# Divide the Order Quantity by the state total to get the percentage of the order quantity for each age group in each state
+sales_stacked_ratio['Percent_Weight'] = sales_stacked_ratio['Order_Quantity']/ sales_stacked_ratio.groupby('State')['Order_Quantity'].transform('sum')
+
+sales_stacked_ratio
+
+```
+
+# Aggregating Dates
+```{python}
+
+df_freq = pd.DataFrame({
+    "Publish Date" : [
+        pd.Timestamp("2000-01-01"),
+        pd.Timestamp("2000-01-02"),
+        pd.Timestamp("2000-01-02"),
+        pd.Timestamp("2000-01-02"),
+        pd.Timestamp("2000-01-09"),
+        pd.Timestamp("2000-01-16")
+    ],
+    "ID": [0, 1, 2, 3, 4, 5],
+    "Price": [10, 20, 30, 40, 50, 60]
+    }
+)
+df_freq
+
+```
+
+```{python}
+
+df_freq.groupby('Publish Date')['Price'].mean()
+
+```
+
+# Filling Date Gaps
+```{python}
+
+df_freq_daily = df_freq.groupby(pd.Grouper(key = "Publish Date", freq= "1D"))['Price'].mean().reset_index()
+df_freq_daily
+
+```
+
+# Filling Interpolate
+```{python}
+
+import plotly.express as px
+rents = pd.read_csv('data/zillow_data.csv')
+px.line(rents, x = 'rent_date', y = 'avg_rents', color='RegionName')
+
+### We can see in the above line that there is missing data. Let's use interpolate
+
+```
+
+
+```{python}
+
+rents[rents['RegionName'] == 'New York County'] = rents[rents['RegionName'] == 'New York County'].interpolate(method = 'linear')
+px.line(rents, x = 'rent_date', y = 'avg_rents', color='RegionName')
+
+```
+
