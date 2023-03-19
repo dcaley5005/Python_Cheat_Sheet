@@ -139,6 +139,15 @@ df['values_linear'] = .4 * x +3 + delta
 
 ```
 
+## Correlation Plot
+```{python}
+
+corr = sales.select_dtypes(include='int64').corr(numeric_only = False)
+px.imshow(corr)
+
+```
+
+
 ## Pearson
 ```{python}
 
@@ -200,6 +209,12 @@ px.line(rents, x = 'rent_date', y = 'avg_rents', color='RegionName')
 
 ```
 
+# Box Plot
+```{python}
+
+px.box(sales, x = "Age_Group" , y = "Order_Quantity")
+
+```
 
 
 
