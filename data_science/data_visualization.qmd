@@ -190,3 +190,17 @@ print("Spearman Correlation: {:.2f}%".format(spearman_correlation*100))
 
 ```
 
+# Line Graph
+```{python}
+
+rents = pd.read_csv('data/zillow_data.csv')
+px.line(rents, x = 'rent_date', y = 'avg_rents', color='RegionName')
+
+### We can see in the above line that there is missing data. Let's use interpolate
+
+```
+
+
+
+
+
