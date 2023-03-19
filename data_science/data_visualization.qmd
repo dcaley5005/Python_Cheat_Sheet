@@ -63,4 +63,12 @@ fig.update_xaxes(tickangle=45)
 
 ```
 
+# Tick Labels
+```{python}
+
+fig.update_yaxes(tickformat=".0%")
+
+```
+
+
 
