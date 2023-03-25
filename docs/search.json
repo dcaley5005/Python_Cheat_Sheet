@@ -144,7 +144,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n\nCode\n1 + 1\n\n\n[1] 2"
+    "text": "This\n\n\nCode\n```{python}\nprint(\"test\")\n```\n\n\ntest\n\n\n\n\nCode\n```{python}\n1 + 1\n```\n\n\n2"
   },
   {
     "objectID": "data_transformation.html",
@@ -761,5 +761,12 @@
     "title": "Data Visualization",
     "section": "Correlation Plot",
     "text": "Correlation Plot\n\n\nCode\ncorr = sales.select_dtypes(include='int64').corr(numeric_only = False)\npx.imshow(corr)"
+  },
+  {
+    "objectID": "data_transformation.html#reading-all",
+    "href": "data_transformation.html#reading-all",
+    "title": "Data Transformation",
+    "section": "Reading All",
+    "text": "Reading All\n```{python}\n\npd.read_csv(filename) # From a CSV file\npd.read_table(filename) # From a delimited text file (like TSV)\npd.read_excel(filename) # From an Excel file\npd.read_sql(query, connection_object) # Reads from a SQL table/database\npd.read_json(json_string) # Reads from a JSON formatted string, URL or file.\npd.read_html(url) # Parses an html URL, string or file and extracts tables to a list of dataframes\npd.read_clipboard() # Takes the contents of your clipboard and passes it to read_table()\npd.DataFrame(dict) # From a dict, keys for columns names, values for data as lists\n\n```\n```{python}\n\ndf.to_csv(filename) # Writes to a CSV file\ndf.to_excel(filename) # Writes to an Excel file\ndf.to_sql(table_name, connection_object) # Writes to a SQL table\ndf.to_json(filename) # Writes to a file in JSON format\ndf.to_html(filename) # Saves as an HTML table\ndf.to_clipboard() # Writes to the clipboard\n\n```"
   }
 ]

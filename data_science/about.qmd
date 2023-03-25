@@ -2,8 +2,16 @@
 title: "About"
 ---
 
-About this site
+This
 
-```{r}
+```{python echo: fenced}
+#| echo: fenced
+
+print("test")
+
+```
+
+```{python}
+#| echo: fenced
 1 + 1
 ```

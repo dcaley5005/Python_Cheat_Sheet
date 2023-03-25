@@ -8,7 +8,7 @@ This is a Data Transformation cheat sheet meant to be a second brain
 when performing data science functions.
 
 
-# Ingesting Data
+# Importing Data
 
 Please see the Data Ingestion Cheat sheet to learn how to load data
 
@@ -27,6 +27,33 @@ import plotly.express as px
 pd.read_csv?
 
 ```
+
+## Reading All
+```{{python}}
+
+pd.read_csv(filename) # From a CSV file
+pd.read_table(filename) # From a delimited text file (like TSV)
+pd.read_excel(filename) # From an Excel file
+pd.read_sql(query, connection_object) # Reads from a SQL table/database
+pd.read_json(json_string) # Reads from a JSON formatted string, URL or file.
+pd.read_html(url) # Parses an html URL, string or file and extracts tables to a list of dataframes
+pd.read_clipboard() # Takes the contents of your clipboard and passes it to read_table()
+pd.DataFrame(dict) # From a dict, keys for columns names, values for data as lists
+
+```
+
+```{{python}}
+
+df.to_csv(filename) # Writes to a CSV file
+df.to_excel(filename) # Writes to an Excel file
+df.to_sql(table_name, connection_object) # Writes to a SQL table
+df.to_json(filename) # Writes to a file in JSON format
+df.to_html(filename) # Saves as an HTML table
+df.to_clipboard() # Writes to the clipboard
+
+```
+
+
 
 ## Reading CSV
 ```{python}
@@ -159,6 +186,20 @@ country_stat.sort_values(by=['Continent','Population','HDI'], ascending=False)
 
 
 ```
+
+
+# Selecting
+```{{python}}
+Python
+df[col] # Returns column with label col as Series
+df[[col1, col2]] # Returns Columns as a new DataFrame
+s.iloc[0] # Selection by position (selects first element)
+s.loc[0] # Selection by index (selects element at index 0)
+df.iloc[0,:] # First row
+df.iloc[0,0] # First element of first column
+
+```
+
 
 
 ## Splitting String into Two Columns
